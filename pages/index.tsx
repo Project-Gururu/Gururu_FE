@@ -1,11 +1,10 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import Link from 'next/link'
 import styled from 'styled-components'
 
 import NotiIcon from '../public/images/notification.svg'
 import MyPageIcon from '../public/images/mypage.svg'
-import Link from 'next/link'
-import Image from 'next/image'
 
 const Home: NextPage = () => {
   return (
@@ -38,7 +37,7 @@ const Home: NextPage = () => {
         <Link href="">
           <a className="item">마이펫</a>
         </Link>
-        <Link href="">
+        <Link href="/mypage">
           <a className="item">마이페이지</a>
         </Link>
       </Nav.Container>
@@ -50,25 +49,26 @@ const Wrapper = styled.div`
   display: flex;
   flex-flow: column nowrap;
   height: 100vh;
-  background-color: #f3f3f3;
+  background-color: ${({ theme }) => theme.colors.gray};
 `
 
 const Header = {
   Container: styled.header`
-    width: 100%;
-    padding: 5px 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #d7c0ae;
-    font-weight: 700;
-    color: white;
     position: sticky;
     top: 0;
+    width: 100%;
+    padding: 0.4rem 1rem;
+    background-color: ${({ theme }) => theme.colors.primary};
+    font-size: ${({ theme }) => theme.size.sm};
+    font-weight: 700;
+    color: ${({ theme }) => theme.colors.white};
   `,
   IconContainer: styled.div`
     display: flex;
-    gap: 8px;
+    gap: 0.5rem;
     align-items: center;
   `,
 }
@@ -78,15 +78,15 @@ const Search = {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0px 16px 15px;
-    border-radius: 0 0 12px 12px;
-    background-color: #d7c0ae;
+    padding: 0 1rem 1rem;
+    border-radius: 0 0 0.75rem 0.75rem;
+    background-color: ${({ theme }) => theme.colors.primary};
   `,
   Input: styled.input`
     width: 100%;
-    height: 40px;
+    height: 2.5rem;
     border: none;
-    padding: 0 10px;
+    padding: 0 0.75rem;
   `,
 }
 
@@ -94,20 +94,19 @@ const Nav = {
   Container: styled.nav`
     display: grid;
     height: 70%;
-    margin-top: 15px;
-    padding: 0 16px;
+    margin-top: 1rem;
+    padding: 0 1rem;
     grid-template-rows: 1fr 0.5fr 1fr;
     grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    /* flex-grow: 1; */
+    gap: 1rem;
     font-family: 'Black Han Sans', sans-serif;
-    font-size: 25px;
+    font-size: ${({ theme }) => theme.size.base};
 
     .item {
       width: 100%;
-      padding: 10px;
-      background-color: white;
-      border-radius: 12px;
+      padding: 1rem;
+      background-color: ${({ theme }) => theme.colors.white};
+      border-radius: 1.2rem;
       box-shadow: 1px 2px 5px 0px rgba(0, 0, 0, 0.2);
     }
     .item:nth-child(3) {
