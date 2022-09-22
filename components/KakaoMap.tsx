@@ -18,7 +18,7 @@ export default function KakaoMap() {
   const [kakaoMap, setKakaoMap] = useState<any>(null)
   const [initLocation, setInitLocation] = useState<Location>()
 
-  // 내 위치로 이동하는 함수
+  /** 내 위치로 이동하는 함수 */
   const setLatLon = () => {
     const { latitude, longitude }: any = initLocation
     const moveLatLon = new window.kakao.maps.LatLng(
@@ -28,6 +28,7 @@ export default function KakaoMap() {
     kakaoMap.panTo(moveLatLon)
   }
 
+  /** geolocation을 반영한 지도 생성 */
   useEffect(() => {
     const $script = document.createElement('script')
     $script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAOMAP_KEY}&autoload=false`
@@ -60,6 +61,7 @@ export default function KakaoMap() {
     }
   }, [])
 
+  /** 지도 생성 후 마커 표시 */
   useEffect(() => {
     if (kakaoMap === null) return
     const imageSrc = '/images/marker.png',

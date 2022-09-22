@@ -1,0 +1,19 @@
+.container {
+  position: absolute;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 0 0 0.7rem 0.7rem;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  color: white;
+  font-weight: 700;
+  font-size: 1.2rem;
+  background-color: $color-brown-500;
+  .wrap {
+    display: flex;
+    align-items: center;
+  }
+}
