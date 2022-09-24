@@ -47,8 +47,8 @@ const StepTwo: React.FC<CounterProps> =
                                     list.size = e.currentTarget.value;
                                 }}
                             />
-                            <div className='delete' onClick={() => del(idx)}>X</div>
-                            <div className='open'> 열기 </div>
+                            <div className={style.del} onClick={() => del(idx)}>X</div>
+                            <div className={style.open}> 열기 </div>
                         </div>
                         )
                     })}
