@@ -11,15 +11,18 @@ const goNext = () => {
 }
     return (
         <>
-        step one
-        <div>사진</div>
-        <div>가게명</div>
-        <div>가게 소개</div>
-        <div>가게 주소</div>
-        <div>가게 소개</div>
-        <div>사업자 등록번호</div>
-        <div>고정 휴무</div>
-        <Button onClick={goNext}>다음으로 -></Button>
+        <Grid>
+            <Photo>
+                사진
+            </Photo>
+            <Input placeholder="가게명"/>
+            <Input placeholder="가게 소개"/>
+            <Input placeholder="가게 주소"/>
+            <Input placeholder="가게 소개"/>
+            <Input placeholder="사업자 등록번호"/>
+            <Input placeholder="고정 휴무"/>
+            <Button onClick={goNext}>다음으로 -></Button>
+        </Grid>
         </>
     )
 }
@@ -31,4 +34,28 @@ width: 147px;
 height: 44px;
 border-radius: 12px;
 border: 1px solid black;
+margin: auto;
+align-items: center;
+justify-content: center;
+display: flex;
+`
+
+const Photo = styled.div`
+width: 300px;
+height: 150px;
+border: 1px solid black;
+margin: auto;
+display: flex;
+justify-content: center;
+align-items: center;
+`
+
+const Grid = styled.div`
+padding: 16px;
+`
+
+const Input = styled.input`
+width: 300px;
+display: flex;
+margin: 16px auto;
 `
