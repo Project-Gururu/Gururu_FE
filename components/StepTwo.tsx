@@ -10,6 +10,11 @@ const StepTwo: React.FC<CounterProps> =
     let [list, setList] = useState([{
         size: "",
     },])
+    let [menu, setMenu] = useState([{
+        name: "",
+        desc: "",
+        price: "",
+    }])
     const addList = () => {
         setList([...list, { size: ""}])
     }
@@ -22,6 +27,8 @@ const StepTwo: React.FC<CounterProps> =
         list.splice(idx, 1);
         console.log(list)
     }
+
+
 
     console.log(list)
 
@@ -47,7 +54,7 @@ const StepTwo: React.FC<CounterProps> =
                     })}
                 </Table>
             </Grid>
-            <Button onClick={goNext}> 다음으로 -></Button>
+            <Button onClick={goNext}> 다음으로</Button>
         </Grid>
         </>
     )

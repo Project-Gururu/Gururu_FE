@@ -21,7 +21,7 @@ const goNext = () => {
             <Input placeholder="가게 소개"/>
             <Input placeholder="사업자 등록번호"/>
             <Input placeholder="고정 휴무"/>
-            <Button onClick={goNext}>다음으로 -></Button>
+            <Button onClick={goNext}>다음으로</Button>
         </Grid>
         </>
     )
