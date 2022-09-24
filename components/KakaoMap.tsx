@@ -84,12 +84,10 @@ export default function KakaoMap() {
 
   return (
     <>
-      <div className={styles.container}>
-        <div className={styles.map} ref={$containerRef}>
-          <button onClick={() => setLatLon()} className={styles.myLocation}>
-            <GpsIcon className={styles.gpsIcon} alt="현위치로 가기" />
-          </button>
-        </div>
+      <div className={styles.container} ref={$containerRef}>
+        <button onClick={() => setLatLon()} className={styles.myLocation}>
+          <GpsIcon className={styles.gpsIcon} alt="현위치로 가기" />
+        </button>
       </div>
     </>
   )

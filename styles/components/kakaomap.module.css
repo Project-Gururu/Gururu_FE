@@ -1,12 +1,8 @@
 .container {
   width: 100%;
-  flex-grow: 1;
-}
-.container .map {
   height: 100%;
-  position: relative;
 }
-.container .map .myLocation {
+.container .myLocation {
   position: absolute;
   bottom: 0.5rem;
   right: 0.5rem;
@@ -14,7 +10,7 @@
   border: none;
   background-color: transparent;
 }
-.container .map .myLocation .gpsIcon {
+.container .myLocation .gpsIcon {
   width: 40px;
   height: 40px;
   filter: drop-shadow(2px 1.5px 2px rgba(0, 0, 0, 0.2));
