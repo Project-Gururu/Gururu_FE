@@ -1,5 +1,5 @@
 import {Dispatch,SetStateAction } from "react";
-import styled from 'styled-components'
+import style from '../styles/components/Register.module.scss'
 interface CounterProps {
     numState: [number, Dispatch<SetStateAction<number>>];
 }
@@ -16,16 +16,10 @@ const goNext = () => {
         <div>
             <div></div>
         </div>
-        <Button onClick={goNext}> 저장하기</Button>
+        <div className={style.Button} onClick={goNext}> 저장하기</div>
         </>
     )
 }
 
 export default StepThree;
 
-const Button = styled.button`
-width: 147px;
-height: 44px;
-border-radius: 12px;
-border: 1px solid black;
-`

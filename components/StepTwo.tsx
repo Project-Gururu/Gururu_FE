@@ -1,5 +1,5 @@
 import {Dispatch, SetStateAction, useState} from 'react'
-import styled from 'styled-components'
+import style from '../styles/components/Register.module.scss'
 interface CounterProps {
     numState: [number, Dispatch<SetStateAction<number>>];
 }
@@ -34,13 +34,13 @@ const StepTwo: React.FC<CounterProps> =
 
     return (
         <>
-        <Grid>
-            <Grid>
-                <Table>
+        <div className={style.Grid}>
+            <div className={style.Grid}>
+                <div className={style.Table}>
                     <div onClick={addList}>카테고리 추가</div>
                     {list.map((list, idx) => {
                         return(
-                        <Category key={idx}>
+                        <div className={style.Category} key={idx}>
                             <input
                                 type="text"
                                 onChange={(e: React.FormEvent<HTMLInputElement>) => {
@@ -49,50 +49,16 @@ const StepTwo: React.FC<CounterProps> =
                             />
                             <div className='delete' onClick={() => del(idx)}>X</div>
                             <div className='open'> 열기 </div>
-                        </Category>
+                        </div>
                         )
                     })}
-                </Table>
-            </Grid>
-            <Button onClick={goNext}> 다음으로</Button>
-        </Grid>
+                </div>
+            </div>
+            <div className={style.Button} onClick={goNext}> 다음으로</div>
+        </div>
         </>
     )
 }
 
 export default StepTwo;
-
-const Button = styled.button`
-width: 147px;
-height: 44px;
-border-radius: 12px;
-border: 1px solid black;
-margin: auto;
-align-items: center;
-justify-content: center;
-display: flex;
-`
-
-const Grid = styled.div`
-padding: 16px;
-`
-const Table = styled.div`
-padding: 16px;
-border: 1px solid black;
-`
-
-const Category = styled.div`
-padding: 16px;
-border: 1px solid black;
-margin-top: 8px;
-display: flex;
-
-.delete {
-    margin-left: auto;
-}
-
-.open {
-padding-left: 9px;
-}
-`
 
