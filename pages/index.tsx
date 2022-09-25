@@ -10,9 +10,11 @@ const Home: NextPage = () => {
   const kakaoInit = () => {
     const kakao = (window as any).Kakao
     if (!kakao.isInitialized()) {
-      kakao.init('5afb2c4d6443d45e582daed7cd01634a')
+      kakao.init(`${process.env.NEXT_PUBLIC_KAKAO_KEY}`)
     }
-    kakao.Auth.authorize({ redirectUri: 'http://localhost:3000/auth/kakao' })
+    kakao.Auth.authorize({
+      redirectUri: `${process.env.NEXT_PUBLIC_REDIRECT_URI}`,
+    })
   }
 
   return (
