@@ -1,42 +1,15 @@
-import Document, {
-  Html,
-  Head,
-  Main,
-  NextScript,
-  DocumentContext,
-  DocumentInitialProps,
-} from 'next/document'
+import Document, { Html, Head, Main, NextScript } from 'next/document'
 
 export const siteTitle = 'GURURU'
 
 export default class MyDocument extends Document {
-  static async getInitialProps(
-    ctx: DocumentContext,
-  ): Promise<DocumentInitialProps> {
-    const originalRenderPage = ctx.renderPage
-
-    ctx.renderPage = () =>
-      originalRenderPage({
-        enhanceApp: (App) => App,
-        enhanceComponent: (Component) => Component,
-      })
-
-    const initialProps = await Document.getInitialProps(ctx)
-
-    return initialProps
-  }
-
   render() {
     return (
       <Html>
         <Head>
           <link rel="icon" href="/favicon.ico" />
           <link
-            href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
-            rel="stylesheet"
-          />
-          <link
-            href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
             rel="stylesheet"
           />
           <meta name="description" content="반려동물 미용은 GURURU" />

@@ -40,7 +40,7 @@ export default function Tabs() {
     }
   }
 
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     if (horizontalUnderLine.current && horizontalMenus.current[0]) {
       horizontalUnderLine.current.style.left =
         horizontalMenus.current[0].offsetLeft +
