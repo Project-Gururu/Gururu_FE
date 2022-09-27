@@ -7,6 +7,14 @@ import React from 'react'
 import styles from 'styles/pages/Home.module.scss'
 import { siteTitle } from './_document'
 
+const ErrorComponent = () => {
+  const [error, setError] = React.useState(false)
+
+  if (error) {
+    throw new Error('Error occured')
+  }
+  return <button onClick={() => setError(true)}></button>
+}
 const Home: NextPage = () => {
   const kakaoInit = () => {
     const kakao = (window as any).Kakao
@@ -43,6 +51,7 @@ const Home: NextPage = () => {
           <span className={styles.span}>카카오 로그인</span>
         </a>
       </button>
+      <ErrorComponent></ErrorComponent>
     </div>
   )
 }
