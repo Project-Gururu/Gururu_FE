@@ -1,9 +1,9 @@
 import {configureStore} from "@reduxjs/toolkit";
-import biz from "./modules/biz";
+import reg from "./modules/reg";
 
 export const store = configureStore({
     reducer: {
-        biz: biz
+        reg: reg
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

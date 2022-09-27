@@ -49,3 +49,19 @@ display: flex;
         padding-left: 9px;
     }
 }
+
+.Wrap {
+display: flex;
+flex-wrap: wrap;
+
+    .Mybutton {
+    width: 150px;
+    height: 150px;
+    border: 1px solid black;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5%;
+    }
+}

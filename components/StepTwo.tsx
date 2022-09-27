@@ -9,14 +9,11 @@ const StepTwo: React.FC<CounterProps> =
 
     let [list, setList] = useState([{
         size: "",
+        menu: []
     },])
-    let [menu, setMenu] = useState([{
-        name: "",
-        desc: "",
-        price: "",
-    }])
+
     const addList = () => {
-        setList([...list, { size: ""}])
+        setList([...list, { size: "", menu: []}])
     }
 
     const goNext = () => {
@@ -27,8 +24,6 @@ const StepTwo: React.FC<CounterProps> =
         list.splice(idx, 1);
         console.log(list)
     }
-
-
 
     console.log(list)
 
