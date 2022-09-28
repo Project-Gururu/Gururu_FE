@@ -31,7 +31,7 @@ export default function KakaoMap() {
   /** geolocation을 반영한 지도 생성 */
   useEffect(() => {
     const $script = document.createElement('script')
-    $script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAOMAP_KEY}&autoload=false`
+    $script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_KEY}&autoload=false`
     document.head.appendChild($script)
 
     $script.onload = () => {

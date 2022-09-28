@@ -1,0 +1,32 @@
+.container {
+  width: 100%;
+  margin-top: 10rem;
+  background-color: white;
+  border: {
+    bottom: 1px $color-gray-100 solid;
+    top: 1px $color-gray-100 solid;
+  }
+}
+
+.ul {
+  position: relative;
+  display: flex;
+  margin: 0.6rem 0rem;
+  font-weight: 500;
+  color: $color-gray-300;
+
+  & li {
+    display: flex;
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+}
+
+.horizontalUnderLine {
+  position: absolute;
+  //   width: 20px;
+  height: 3px;
+  bottom: -10px;
+  background-color: $color-brown-500;
+  transition: 0.2s;
+}
