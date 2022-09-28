@@ -37,7 +37,5 @@
 
 .header {
   background-color: blue;
-  &::before {
-    top: 20;
-  }
+  margin: 0;
 }

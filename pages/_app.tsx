@@ -4,6 +4,7 @@ import { store } from 'redux/store'
 import { Provider } from 'react-redux'
 import 'styles/global.scss'
 import 'styles/Calendar.scss'
+import 'styles/BottomSheet.scss'
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
