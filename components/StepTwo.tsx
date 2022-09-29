@@ -20,6 +20,8 @@ const StepTwo: React.FC<CounterProps> =
     })
 
     const products = useSelector((state: RootState) => state.reg.menu)
+    const categories = [...new Set(products.map((e) => e.size))]
+    console.log(products)
     const onChangeHandler = (e: any) => {
         const { name, value } = e.target;
         setMenu({ ...menu, [name]: value});
@@ -32,8 +34,6 @@ const StepTwo: React.FC<CounterProps> =
         dispatch(regMenu(menu))
         setNum(0)
     }
-
-    console.log(menu)
 
     return (
         <>
@@ -49,21 +49,25 @@ const StepTwo: React.FC<CounterProps> =
                             <input
                                 type="text"
                                 name="size"
+                                placeholder='사이즈'
                                 onChange={onChangeHandler}
                             />
                             <input
                                 type="text"
                                 name="beautyName"
+                                placeholder='미용 이름'
                                 onChange={onChangeHandler}
                             />
                             <input
                                 type="text"
                                 name="beautyDesc"
+                                placeholder='미용 소개'
                                 onChange={onChangeHandler}
                             />
                             <input
                                 type="text"
                                 name="amount"
+                                placeholder='가격'
                                 onChange={onChangeHandler}
                             />
                             <button onClick={Save}>저장하기</button>
@@ -73,11 +77,21 @@ const StepTwo: React.FC<CounterProps> =
                 </div>
                 <div className={style.Table}>
                     <div>카테고리</div>
-                    {products ?
-                    products.map((list, idx) => {
+                    {categories ?
+                    categories.map((list, idx) => {
+                        let subMenu = products.filter((e) => e.size == list )
                         return(
                             <div className={style.Category} key={idx}>
-                                {list.size}
+                                <div>{list}</div>
+                                {subMenu.map((e, idx) => {
+                                    return(
+                                        <div className={style.Category} key={idx}>
+                                            <div>{e.beautyName}</div>
+                                            <div>{e.beautyDesc}</div>
+                                            <div>{e.amount} 원</div>
+                                        </div>
+                                    )
+                                })}
                             </div>
                         )
                     })
