@@ -1,14 +1,17 @@
-import {configureStore} from "@reduxjs/toolkit";
-import biz from "./modules/biz";
+import { configureStore } from '@reduxjs/toolkit'
+import user from './modules/user'
+import biz from './modules/biz'
 
 export const store = configureStore({
-    reducer: {
-        biz: biz
-    },
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware({
-            serializableCheck: false
-        }),
+  reducer: {
+    user,
+    biz,
+  },
+
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

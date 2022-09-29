@@ -1,19 +1,13 @@
-.container {
-  position: absolute;
-  top: 0;
-  z-index: 1000;
+.header {
   display: flex;
-  justify-content: space-between;
+  position: relative;
+  justify-content: center;
   align-items: center;
-  border-radius: 0 0 0.7rem 0.7rem;
-  width: 100%;
-  padding: 0.5rem 1rem;
-  color: white;
-  font-weight: 700;
-  font-size: 1.2rem;
-  background-color: $color-brown-500;
-  .wrap {
-    display: flex;
-    align-items: center;
+  padding: 0.7rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  svg {
+    position: absolute;
+    left: 0;
   }
 }

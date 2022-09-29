@@ -1,8 +1,8 @@
 import React from 'react'
 import NavBar from 'components/NavBar'
-import KakaoMap from 'components/KakaoMap'
-import Header from 'components/Header'
-import BottomSheet from 'components/BottomSheet'
+import KakaoMap from 'components/map/KakaoMap'
+import Header from 'components/map/MapHeader'
+import BottomSheet from 'components/map/BottomSheet'
 
 import styles from 'styles/pages/Map.module.scss'
 

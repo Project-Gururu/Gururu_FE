@@ -6,6 +6,12 @@ import 'styles/global.scss'
 import 'styles/Calendar.scss'
 import 'styles/BottomSheet.scss'
 
+declare global {
+  interface Window {
+    kakao: any
+  }
+}
+
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
