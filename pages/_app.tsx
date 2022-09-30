@@ -5,6 +5,8 @@ import { Provider } from 'react-redux'
 import 'styles/global.scss'
 import 'styles/Calendar.scss'
 import 'styles/BottomSheet.scss'
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 
 declare global {
   interface Window {
@@ -13,6 +15,18 @@ declare global {
 }
 
 export default function MyApp({ Component, pageProps }: AppProps) {
+  const router = useRouter()
+
+  useEffect(() => storePathValues, [router.asPath])
+
+  function storePathValues() {
+    const storage = globalThis?.sessionStorage
+    if (!storage) return
+    const prevPath = storage.getItem('currentPath')
+    storage.setItem('prevPath', prevPath ? prevPath : '')
+    storage.setItem('currentPath', globalThis.location.pathname)
+  }
+
   return (
     <Provider store={store}>
       <ErrorBoundary>

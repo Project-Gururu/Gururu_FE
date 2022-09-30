@@ -12,9 +12,10 @@ const Kakao = () => {
 
     const fetchData = async () => {
       try {
-        await axios.post(
+        const response = await axios.post(
           `${process.env.NEXT_PUBLIC_API_URL}/auth/kakao?code=${code}`,
         )
+        console.log(response)
         router.push('/map')
       } catch (error) {
         throw new Error(`에러발생`)

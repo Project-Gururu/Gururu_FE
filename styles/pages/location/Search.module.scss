@@ -75,6 +75,11 @@
       font-size: 0.7rem;
       padding: 0.3rem 0;
       letter-spacing: -0.76px;
+
+      &:disabled {
+        color: inherit;
+        background-color: $color-gray-100;
+      }
     }
   }
   .button {
@@ -87,5 +92,9 @@
     font-size: 1.1rem;
     color: white;
     font-weight: 600;
+
+    &:disabled {
+      background-color: $color-gray-100;
+    }
   }
 }

@@ -1,36 +1,38 @@
-import Header from 'components/Header'
 import React from 'react'
-
-import SearchIcon from 'public/images/search-thick.svg'
-import NavIcon from 'public/images/globe.svg'
-import ArrowRight from 'public/images/arrow-right.svg'
-
-import styles from 'styles/pages/location/Location.module.scss'
 import Router from 'next/router'
 
-export default function index() {
+import Header from 'components/Header'
+import Post from 'components/location/Post'
+import Location from 'components/location/Location'
+
+import styles from 'styles/pages/location/Location.module.scss'
+import axios from 'axios'
+
+export default function Index() {
+  // React.useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `${process.env.NEXT_PUBLIC_API_URL}/2ebba733-5e85-4842-830a-c768773610eb/local`,
+  //       )
+  //       console.log(response)
+  //     } catch (error) {
+  //       throw new Error(`에러발생`)
+  //     }
+  //   }
+
+  //   fetchData()
+  // }, [])
   return (
     <div className={styles.container}>
       <Header title="주소 설정" />
-      <div>
-        <div className={styles.post}>
-          <SearchIcon alt="" width="11" height="11" fill="gray" />
-          <span>지번, 도로명, 건물명으로 검색</span>
-        </div>
-        <div
-          className={styles.map}
-          onClick={() => Router.push('/location/search')}
-        >
-          <div className={styles.wrap}>
-            <NavIcon alt="" width="15" height="15" />
-            <div>현재 위치로 설정</div>
-          </div>
-          <ArrowRight alt="" width="30" height="30" stroke="gray" />
-        </div>
+      <div className={styles.wrap}>
+        <Post />
+        <Location />
       </div>
       <div className={styles.divider}></div>
-      <section>
-        <button className={styles.button}>주소 저장</button>
+      <section className={styles.section}>
+        <button onClick={() => Router.push('/location/save')}>+</button>
       </section>
     </div>
   )

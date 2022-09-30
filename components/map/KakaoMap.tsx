@@ -37,50 +37,44 @@ export default function KakaoMap() {
 
   /** geolocation을 반영한 지도 생성 */
   useEffect(() => {
-    const $script = document.createElement('script')
-    $script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_KEY}&libraries=services&autoload=false`
-    document.head.appendChild($script)
-
-    $script.onload = () => {
-      window.kakao.maps.load(() => {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-            ({ coords: { latitude, longitude } }) => {
-              if (location && location.latlng) {
-                setInitLocation({
-                  latitude: location.latlng.lat,
-                  longitude: location.latlng.lng,
-                })
-                const map = new window.kakao.maps.Map($containerRef.current, {
-                  center: new window.kakao.maps.LatLng(
-                    location.latlng.lat,
-                    location.latlng.lng,
-                  ),
-                  level: 3,
-                })
-                setKakaoMap(map)
-                return
-              }
-              setInitLocation({ latitude, longitude })
+    window.kakao.maps.load(() => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          ({ coords: { latitude, longitude } }) => {
+            if (location && location.latlng) {
+              setInitLocation({
+                latitude: location.latlng.lat,
+                longitude: location.latlng.lng,
+              })
               const map = new window.kakao.maps.Map($containerRef.current, {
-                center: new window.kakao.maps.LatLng(latitude, longitude),
+                center: new window.kakao.maps.LatLng(
+                  location.latlng.lat,
+                  location.latlng.lng,
+                ),
                 level: 3,
               })
               setKakaoMap(map)
-            },
-          )
-        } else {
-          new window.kakao.maps.Map($containerRef.current, {
-            center: new window.kakao.maps.LatLng(
-              37.5173319258532,
-              127.047377408384,
-            ),
-            level: 3,
-          })
-          return
-        }
-      })
-    }
+              return
+            }
+            setInitLocation({ latitude, longitude })
+            const map = new window.kakao.maps.Map($containerRef.current, {
+              center: new window.kakao.maps.LatLng(latitude, longitude),
+              level: 3,
+            })
+            setKakaoMap(map)
+          },
+        )
+      } else {
+        new window.kakao.maps.Map($containerRef.current, {
+          center: new window.kakao.maps.LatLng(
+            37.5173319258532,
+            127.047377408384,
+          ),
+          level: 3,
+        })
+        return
+      }
+    })
   }, [location])
 
   /** 지도 생성 후 마커 표시 */

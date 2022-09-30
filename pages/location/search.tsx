@@ -46,44 +46,38 @@ export default function Search() {
 
   /** geolocation을 반영한 지도 생성 */
   React.useEffect(() => {
-    const $script = document.createElement('script')
-    $script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_KEY}&libraries=services&autoload=false`
-    document.head.appendChild($script)
-
-    $script.onload = () => {
-      window.kakao.maps.load(() => {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-            ({ coords: { latitude, longitude } }) => {
-              setInitLocation({ latitude, longitude })
-              const map = new window.kakao.maps.Map($containerRef.current, {
-                center: new window.kakao.maps.LatLng(latitude, longitude),
-                level: 3,
+    window.kakao.maps.load(() => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          ({ coords: { latitude, longitude } }) => {
+            setInitLocation({ latitude, longitude })
+            const map = new window.kakao.maps.Map($containerRef.current, {
+              center: new window.kakao.maps.LatLng(latitude, longitude),
+              level: 3,
+            })
+            setKakaoMap(map)
+            /** 최초 주소 설정 */
+            const geocoder = new window.kakao.maps.services.Geocoder()
+            setKakakoGeocoder(geocoder)
+            geocoder.coord2Address(longitude, latitude, (result: any) => {
+              setAddress({
+                address: result[0].address?.address_name,
+                roadAddress: result[0].road_address?.address_name,
               })
-              setKakaoMap(map)
-              /** 최초 주소 설정 */
-              const geocoder = new window.kakao.maps.services.Geocoder()
-              setKakakoGeocoder(geocoder)
-              geocoder.coord2Address(longitude, latitude, (result: any) => {
-                setAddress({
-                  address: result[0].address?.address_name,
-                  roadAddress: result[0].road_address?.address_name,
-                })
-              })
-            },
-          )
-        } else {
-          new window.kakao.maps.Map($containerRef.current, {
-            center: new window.kakao.maps.LatLng(
-              37.5173319258532,
-              127.047377408384,
-            ),
-            level: 3,
-          })
-          return
-        }
-      })
-    }
+            })
+          },
+        )
+      } else {
+        new window.kakao.maps.Map($containerRef.current, {
+          center: new window.kakao.maps.LatLng(
+            37.5173319258532,
+            127.047377408384,
+          ),
+          level: 3,
+        })
+        return
+      }
+    })
   }, [])
 
   /** 지도 생성 후 마커 표시 */
@@ -150,7 +144,13 @@ export default function Search() {
     })
   }, [kakaoMap, kakaoOverlay])
 
+  /** 주소 변경 후 메인 페이지 이동 */
   const onSubmit = () => {
+    if (sessionStorage.getItem('prevPath') === '/location/save') {
+      sessionStorage.setItem('saveLocation', JSON.stringify(address))
+      Router.back()
+      return
+    }
     dispatch(userAction(address))
     console.log(address)
     Router.push('/map')
@@ -167,19 +167,28 @@ export default function Search() {
       <div className={styles.addressContainer}>
         <div className={styles.addressWrap}>
           <span className={styles.address}>
-            {click
+            {!click
               ? address.roadAddress
                 ? address.roadAddress
                 : '도로명 주소를 알 수 없어요'
               : address.address}
           </span>
-          <button onClick={() => setClick(!click)}>
+          <button
+            onClick={() => setClick(!click)}
+            disabled={!address.roadAddress}
+          >
             <RefreshIcon alt="" width={10} height={10} />
-            {click ? ' 지번으로 보기' : ' 도로명으로 보기'}
+            {click ? ' 도로명으로 보기' : ' 지번으로 보기'}
           </button>
         </div>
-        <button className={styles.button} onClick={onSubmit}>
-          이 위치로 주소 설정
+        <button
+          className={styles.button}
+          onClick={onSubmit}
+          disabled={!address.roadAddress}
+        >
+          {address.roadAddress
+            ? '이 위치로 주소 설정'
+            : '정확한 주소 인식을 위해 재조정해주세요'}
         </button>
       </div>
     </div>
