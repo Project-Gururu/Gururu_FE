@@ -1,12 +1,17 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
+import DaumPostcode from "react-daum-postcode";
+import { useSelector, useDispatch } from "react-redux";
+import Modal from "react-modal"; // 추가
 import style from '../styles/components/Register.module.scss'
+import { regBiz } from "redux/modules/reg";
+
 
 interface CounterProps {
     numState: [number, Dispatch<SetStateAction<number>>];
 }
 
 const StepOne: React.FC<CounterProps> = ({ numState: [count, setCount] }) => {
-
+    const dispatch = useDispatch();
     const [image, setImage] = useState();
     const [bizInfo, setBizInfo] = useState({
         storeName: "",
@@ -15,14 +20,63 @@ const StepOne: React.FC<CounterProps> = ({ numState: [count, setCount] }) => {
         homepage: "",
         companyRegistrationNumber: "",
         storeHoliday: "",
-        storeNewAddrs: "",
-        storeOldAddrs: "",
-        sotreDetailAddrs: "",
+        storeDetailAddrs: "",
         storeAddrsDesc: "",
         openTime: "",
         closeTime: "",
     })
 
+    const [oldAddrs, setOldAddress] = useState<string>("");
+    const [newAddrs, setNewAddress] = useState<string>("");
+    const [isOpen, setIsOpen] = useState<boolean>(false); //추가
+    const [isOpen2, setIsOpen2] = useState<boolean>(false);
+    const completeHandler = (data:any) =>{
+        setNewAddress(data.jibunAddress)
+        console.log(data)
+        setIsOpen(false); //추가
+    }
+    const completeHandler2 = (data:any) =>{
+        setOldAddress(data.jibunAddress)
+        console.log(data)
+        setIsOpen2(false); //추가
+    }
+
+    // Modal 스타일
+    const customStyles = {
+        overlay: {
+            backgroundColor: "rgba(0,0,0,0.5)",
+        },
+        content: {
+            left: "0",
+            margin: "auto",
+            width: "500px",
+            height: "600px",
+            padding: "0",
+            overflow: "hidden",
+        },
+    };
+
+    // 검색 클릭
+    const toggle = () =>{
+        setIsOpen(!isOpen);
+    }
+    const toggle2 = () =>{
+        setIsOpen2(!isOpen2);
+    }
+
+    // // 상세 주소검색 event
+    // const changeHandler = (e:React.ChangeEvent<HTMLInputElement>) =>{
+    //     setDetailAddress(e.target.value);
+    // }
+
+    // // 추가
+    // const clickHandler = () =>{
+    //     if(detailAddress===""){
+    //         alert("상세주소를 입력해주세요.");
+    //     } else{
+    //         console.log(zipCode, roadAddress, detailAddress);
+    //     }
+    // }
     const onChangeHandler = (e: any) => {
         const { name, value } = e.target;
         setBizInfo({ ...bizInfo, [name]: value});
@@ -40,10 +94,15 @@ const StepOne: React.FC<CounterProps> = ({ numState: [count, setCount] }) => {
     }
 
     const goNext = () => {
-        setCount(count + 1);
+      let data = {
+        storeImg: image,
+        storeNewAddrs: newAddrs,
+        storeOldAddrs: oldAddrs,
+        ...bizInfo
+      }
+      dispatch(regBiz(data))
+        // setCount(count + 1);
     }
-
-    console.log(bizInfo)
     return (
         <>
         <div className={style.Grid}>
@@ -105,13 +164,17 @@ const StepOne: React.FC<CounterProps> = ({ numState: [count, setCount] }) => {
               className={style.Input}
               name="storeNewAddrs"
               placeholder="신사업자 주소"
-              onChange={onChangeHandler}
+              onClick={toggle}
+              value={newAddrs}
+              readOnly
             />
             <input
               className={style.Input}
               name="storeOldAddrs"
               placeholder="구사업자 주소"
-              onChange={onChangeHandler}
+              value={oldAddrs}
+              onClick={toggle2}
+              readOnly
             />
             <input
               className={style.Input}
@@ -131,6 +194,12 @@ const StepOne: React.FC<CounterProps> = ({ numState: [count, setCount] }) => {
               placeholder="사업자 번호"
               onChange={onChangeHandler}
             />
+            <Modal isOpen={isOpen} ariaHideApp={false} style={customStyles}>
+                <DaumPostcode onComplete={completeHandler} height="100%" />
+            </Modal>
+            <Modal isOpen={isOpen2} ariaHideApp={false} style={customStyles}>
+                <DaumPostcode onComplete={completeHandler2} height="100%" />
+            </Modal>
             <button className={style.Button} onClick={goNext}>다음으로</button>
         </div>
         </>

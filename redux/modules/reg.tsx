@@ -1,8 +1,9 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 
-export const regBiz = createAsyncThunk(
+export const regBiz: any = createAsyncThunk(
     'reg/regBiz',
     async (data) => {
+        console.log(data)
         try {
         } catch (err) {
 
