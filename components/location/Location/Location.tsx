@@ -4,7 +4,7 @@ import Router from 'next/router'
 import NavIcon from 'public/images/globe.svg'
 import ArrowRight from 'public/images/arrow-right.svg'
 
-import styles from 'styles/components/location/Location.module.scss'
+import styles from './Location.module.scss'
 
 export default function Location({ title }: { title: string }) {
   return (

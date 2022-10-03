@@ -1,26 +1,17 @@
 import React, { useEffect, useState, useRef } from 'react'
-import styles from 'styles/components/Kakaomap.module.scss'
-import GpsIcon from 'public/images/gps.svg'
 import { useAppSelector } from 'redux/hooks'
 
-interface Location {
-  latitude: number
-  longitude: number
-}
+import GpsIcon from 'public/images/gps.svg'
 
-interface Address {
-  address?: string
-  roadAddress?: string
-  latlng?: {
-    lat: number
-    lng: number
-  }
-}
+import styles from './Kakaomap.module.scss'
+
+import { Address, Location } from 'types/map'
 
 export default function KakaoMap() {
   const location = useAppSelector<null | Address>(
     (state) => state.user.location,
   )
+  console.log(location)
   const $containerRef = useRef<HTMLDivElement>(null)
   const [kakaoMap, setKakaoMap] = useState<any>(null)
   const [initLocation, setInitLocation] = useState<Location>()

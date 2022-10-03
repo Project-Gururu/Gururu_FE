@@ -1,13 +1,13 @@
 import React from 'react'
 
-import Header from 'components/Header'
-import Post from 'components/location/Post'
-import Location from 'components/location/Location'
+import Header from 'components/common/Header/Header'
+import Post from 'components/location/Post/Post'
+import Location from 'components/location/Location/Location'
 import HomeIcon from 'public/images/home.svg'
 import CompanyIcon from 'public/images/company.svg'
 import EtcIcon from 'public/images/marker.svg'
 
-import styles from 'styles/components/location/Save.module.scss'
+import styles from 'styles/pages/location/Save.module.scss'
 
 interface IconType {
   [index: number]: any
@@ -24,7 +24,7 @@ export default function Save() {
 
   const sessionData = sessionStorage.getItem('saveLocation')
   const location = sessionData && JSON.parse(sessionData)
-  console.log(choice)
+
   React.useEffect(() => {
     if (choice !== undefined) {
       $place.current.forEach((place, index) => {

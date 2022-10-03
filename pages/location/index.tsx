@@ -1,9 +1,9 @@
 import React from 'react'
 import Router from 'next/router'
 
-import Header from 'components/Header'
-import Post from 'components/location/Post'
-import Location from 'components/location/Location'
+import Header from 'components/common/Header/Header'
+import Post from 'components/location/Post/Post'
+import Location from 'components/location/Location/Location'
 
 import styles from 'styles/pages/location/Location.module.scss'
 import axios from 'axios'

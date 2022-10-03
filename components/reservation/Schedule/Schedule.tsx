@@ -6,7 +6,7 @@ import DownIcon from 'public/images/circle-down.svg'
 import CalendarIcon from 'public/images/calendar.svg'
 import ClockIcon from 'public/images/clock.svg'
 
-import styles from 'styles/components/reservation/Schedule.module.scss'
+import styles from './Schedule.module.scss'
 
 export default function Calendar() {
   const [value, onChange] = React.useState(new Date())

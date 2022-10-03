@@ -1,13 +1,13 @@
 import React from 'react'
 
-import styles from 'styles/components/Tabs.module.scss'
+import styles from './Tabs.module.scss'
 
 interface PropsType {
   tabElement: string[]
-  component: { [index: number]: JSX.Element }
+  children: any
 }
 
-export default function Tabs({ component, tabElement }: PropsType) {
+export default function Tabs({ tabElement, children }: PropsType) {
   const [section, setSection] = React.useState<number>(0)
   const horizontalUnderLine = React.useRef<HTMLDivElement>(null)
   const horizontalMenus = React.useRef<null[] | HTMLLIElement[]>([])
@@ -53,12 +53,9 @@ export default function Tabs({ component, tabElement }: PropsType) {
 
   return (
     <>
-      <div className={styles.container}>
-        <ul className={styles.ul}>
-          <div
-            className={styles.horizontalUnderLine}
-            ref={horizontalUnderLine}
-          />
+      <div className={styles.tabContainer}>
+        <ul>
+          <div ref={horizontalUnderLine} />
           {tabElement.map((elem, index) => {
             return (
               <li
@@ -73,7 +70,7 @@ export default function Tabs({ component, tabElement }: PropsType) {
           })}
         </ul>
       </div>
-      {component[section]}
+      <div className={styles.tabContents}>{children[section]}</div>
     </>
   )
 }

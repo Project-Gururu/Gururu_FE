@@ -1,10 +1,10 @@
-import ErrorBoundary from 'components/ErrorBoundary'
+import ErrorBoundary from 'components/common/ErrorBoundary'
 import type { AppProps } from 'next/app'
 import { store } from 'redux/store'
 import { Provider } from 'react-redux'
 import 'styles/global.scss'
-import 'styles/Calendar.scss'
-import 'styles/BottomSheet.scss'
+import 'styles/lib/Calendar.scss'
+import 'styles/lib/BottomSheet.scss'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 

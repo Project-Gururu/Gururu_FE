@@ -1,6 +1,6 @@
 import Router from 'next/router'
 import ArrowLeft from 'public/images/arrow-left.svg'
-import styles from 'styles/components/Header.module.scss'
+import styles from './Header.module.scss'
 
 export default function Header({ title }: { title: string }) {
   return (

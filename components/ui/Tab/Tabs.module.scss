@@ -1,0 +1,34 @@
+.tabContainer {
+  width: 100%;
+  margin-top: 0.5rem;
+  border: {
+    bottom: 1px $color-gray-100 solid;
+    top: 1px $color-gray-100 solid;
+  }
+
+  ul {
+    position: relative;
+    display: flex;
+    margin: 0.6rem 0rem;
+    font-weight: 500;
+    color: $color-gray-300;
+
+    div {
+      position: absolute;
+      height: 3px;
+      bottom: -10px;
+      background-color: $color-brown-500;
+      transition: 0.2s;
+    }
+
+    li {
+      display: flex;
+      flex: 1 1 auto;
+      justify-content: center;
+    }
+  }
+}
+
+.tabContents {
+  @include center(column);
+}

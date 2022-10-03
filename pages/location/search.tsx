@@ -1,28 +1,17 @@
-import Header from 'components/Header'
 import React from 'react'
 import _ from 'lodash'
 import Router from 'next/router'
 import { useAppDispatch } from 'redux/hooks'
 import { setAddress as userAction } from 'redux/modules/user'
 
+import Header from 'components/common/Header/Header'
 import GpsIcon from 'public/images/gps.svg'
 import RefreshIcon from 'public/images/refresh.svg'
 
 import styles from 'styles/pages/location/Search.module.scss'
 
-interface Location {
-  latitude: number
-  longitude: number
-}
+import { Address, Location } from 'types/map'
 
-interface Address {
-  address?: string
-  roadAddress?: string
-  latlng?: {
-    lat: number
-    lng: number
-  }
-}
 export default function Search() {
   const $containerRef = React.useRef<HTMLDivElement>(null)
   const [kakaoMap, setKakaoMap] = React.useState<any>(null)
@@ -151,6 +140,7 @@ export default function Search() {
       return
     }
     dispatch(userAction(address))
+    console.log(address)
     Router.push('/map')
   }
 

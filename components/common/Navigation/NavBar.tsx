@@ -1,4 +1,4 @@
-import styles from 'styles/components/NavBar.module.scss'
+import styles from './NavBar.module.scss'
 
 import SearchIcon from 'public/images/search.svg'
 import LiveIcon from 'public/images/live.svg'

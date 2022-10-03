@@ -3,7 +3,7 @@ import Router from 'next/router'
 
 import SearchIcon from 'public/images/search-thick.svg'
 
-import styles from 'styles/components/location/Post.module.scss'
+import styles from './Post.module.scss'
 
 export default function Post() {
   const [kakaoGeocoder, setKakaoGeocoder] = React.useState<any>()
