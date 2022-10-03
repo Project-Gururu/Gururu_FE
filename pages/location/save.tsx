@@ -43,7 +43,7 @@ export default function Save() {
       <Header title="주소 저장" />
       <div className={styles.wrap}>
         <Post />
-        <Location />
+        <Location title="현재 위치로 주소 저장" />
       </div>
       <div className={styles.divider}></div>
       <section className={styles.section}>

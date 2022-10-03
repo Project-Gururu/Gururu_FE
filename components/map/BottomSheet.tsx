@@ -5,7 +5,6 @@ import ListIcon from 'public/images/list.svg'
 import MapIcon from 'public/images/map.svg'
 
 import styles from 'styles/components/BottomSheet.module.scss'
-import 'react-spring-bottom-sheet/dist/style.css'
 
 export default function BottomSheetModal() {
   const [open, setOpen] = React.useState<boolean>(true)

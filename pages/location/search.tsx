@@ -121,7 +121,6 @@ export default function Search() {
         kakaoMap.getCenter().La,
         kakaoMap.getCenter().Ma,
         _.throttle((result: any) => {
-          console.log(result)
           setAddress({
             address: result[0].address?.address_name,
             roadAddress: result[0].road_address?.address_name,
@@ -152,7 +151,6 @@ export default function Search() {
       return
     }
     dispatch(userAction(address))
-    console.log(address)
     Router.push('/map')
   }
 

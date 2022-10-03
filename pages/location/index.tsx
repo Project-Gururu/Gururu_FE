@@ -28,7 +28,7 @@ export default function Index() {
       <Header title="주소 설정" />
       <div className={styles.wrap}>
         <Post />
-        <Location />
+        <Location title="현재 위치로 설정" />
       </div>
       <div className={styles.divider}></div>
       <section className={styles.section}>
