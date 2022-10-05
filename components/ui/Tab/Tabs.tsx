@@ -1,26 +1,16 @@
 import React from 'react'
-import StoreHome from 'components/store/StoreHome'
-import StorePrice from 'components/store/StorePrice'
-import StoreBeautician from 'components/store/StoreBeautician'
-import StoreReview from 'components/store/StoreReview'
 
-import styles from 'styles/components/Tabs.module.scss'
+import styles from './Tabs.module.scss'
 
-interface ComponentType {
-  [index: number]: JSX.Element
+interface PropsType {
+  tabElement: string[]
+  children: any
 }
 
-export default function Tabs() {
+export default function Tabs({ tabElement, children }: PropsType) {
   const [section, setSection] = React.useState<number>(0)
   const horizontalUnderLine = React.useRef<HTMLDivElement>(null)
   const horizontalMenus = React.useRef<null[] | HTMLLIElement[]>([])
-  const tabElement = ['홈', '가격', '스타일리스트', '리뷰']
-  const component: ComponentType = {
-    0: <StoreHome />,
-    1: <StorePrice />,
-    2: <StoreBeautician />,
-    3: <StoreReview />,
-  }
 
   const horizontalIndicator = (ev: Event) => {
     ev.preventDefault()
@@ -63,12 +53,9 @@ export default function Tabs() {
 
   return (
     <>
-      <div className={styles.container}>
-        <ul className={styles.ul}>
-          <div
-            className={styles.horizontalUnderLine}
-            ref={horizontalUnderLine}
-          />
+      <div className={styles.tabContainer}>
+        <ul>
+          <div ref={horizontalUnderLine} />
           {tabElement.map((elem, index) => {
             return (
               <li
@@ -83,7 +70,7 @@ export default function Tabs() {
           })}
         </ul>
       </div>
-      {component[section]}
+      <div className={styles.tabContents}>{children[section]}</div>
     </>
   )
 }

@@ -1,0 +1,11 @@
+.header {
+  @include center;
+  position: relative;
+  padding: 0.7rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  svg {
+    position: absolute;
+    left: 0;
+  }
+}

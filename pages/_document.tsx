@@ -1,4 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
+import Script from 'next/script'
 
 export const siteTitle = 'GURURU'
 
@@ -21,6 +22,11 @@ export default class MyDocument extends Document {
           />
           <meta name="og:title" content={siteTitle} />
           <meta name="twitter:card" content="summary_large_image" />
+          <Script
+            async
+            strategy={'beforeInteractive'}
+            src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_KEY}&libraries=services&autoload=false`}
+          />
         </Head>
         <body>
           <Main />

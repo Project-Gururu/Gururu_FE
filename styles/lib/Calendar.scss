@@ -4,6 +4,7 @@
   background: white;
   font-family: 'Noto Sans KR';
   line-height: 1.125em;
+  margin-top: 0.8rem;
 }
 .react-calendar__navigation__label__labelText {
   font-size: 1.4rem;
@@ -53,9 +54,10 @@
   width: 130px;
   font-size: 2rem;
 }
-.react-calendar__navigation button:nth-child(2) {
+.react-calendar__navigation button:nth-child(even) {
   padding-top: 0.5rem;
   pointer-events: none;
+  width: 200px;
 }
 .react-calendar__month-view__weekdays {
   text-align: center;

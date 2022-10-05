@@ -1,0 +1,97 @@
+.container {
+  @include flex(column);
+  @include full;
+  position: relative;
+}
+
+.wrap {
+  padding: 0 1.2rem;
+}
+
+.divider {
+  background-color: $color-brown-100;
+  width: 100%;
+  height: 0.5rem;
+}
+
+.section {
+  @include flex(column);
+  flex-grow: 1;
+  padding: 1rem;
+
+  h3 {
+    margin: 0;
+  }
+
+  .addressCotainer {
+    display: flex;
+    margin-top: 0.5rem;
+    gap: 0.5rem;
+
+    .sign {
+      display: flex;
+      align-items: center;
+      padding: 0.3rem;
+      margin-top: 0.2rem;
+      border-radius: 0.3rem;
+      font-size: 0.7rem;
+      background-color: $color-brown-100;
+      color: $color-gray-400;
+      height: 1.1rem;
+      white-space: nowrap;
+    }
+
+    .address {
+      flex-grow: 1;
+      white-space: wrap;
+      word-break: break-all;
+    }
+  }
+}
+
+.case {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
+
+  div {
+    @include center(column);
+    gap: 0.3rem;
+    padding: 0.8rem;
+    border: 1px solid $color-brown-100;
+    border-radius: 0.4rem;
+    font-size: 1rem;
+  }
+}
+
+.selected {
+  background-color: $color-brown-500;
+  color: white;
+  & svg {
+    fill: white;
+  }
+}
+
+.button {
+  width: 100%;
+  margin: auto auto 0;
+  background-color: $color-brown-500;
+  border: none;
+  border-radius: 0.4rem;
+  padding: 0.6rem;
+  font-size: 1.1rem;
+  color: white;
+  font-weight: 600;
+
+  &:disabled {
+    background-color: $color-gray-100;
+  }
+}
+
+.input {
+  border: 1px solid $color-brown-100;
+  border-radius: 0.4rem;
+  padding: 0.6rem;
+  margin-top: 1rem;
+}

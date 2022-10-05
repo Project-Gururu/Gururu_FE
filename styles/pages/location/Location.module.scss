@@ -1,0 +1,60 @@
+.container {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.wrap {
+  padding: 0 1.2rem;
+}
+
+.divider {
+  background-color: $color-brown-100;
+  width: 100%;
+  height: 0.5rem;
+}
+
+.section {
+  padding: 1rem 1.4rem;
+  position: relative;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 1.5rem;
+    border: none;
+    font-size: 3rem;
+    color: white;
+    background-color: $color-brown-500;
+  }
+}
+
+.addressItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  div:nth-of-type(1) {
+    flex-grow: 1;
+    gap: 0.2rem;
+    padding-bottom: 0.4rem;
+    border-bottom: $color-brown-100 1px solid;
+  }
+  p {
+    margin: 0;
+  }
+  p:nth-of-type(1) {
+    font-weight: 700;
+  }
+}

@@ -1,0 +1,17 @@
+.container {
+  padding: 0 1rem;
+}
+
+.schedule {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0rem;
+  border-bottom: 1px solid $color-gray-100;
+  div {
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    gap: 0.4rem;
+  }
+}
