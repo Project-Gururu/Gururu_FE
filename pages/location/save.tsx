@@ -8,13 +8,28 @@ import CompanyIcon from 'public/images/company.svg'
 import EtcIcon from 'public/images/marker.svg'
 
 import styles from 'styles/pages/location/Save.module.scss'
+import { useMutation } from '@tanstack/react-query'
+import { userAPI } from 'redux/api'
+import { useAppSelector } from 'redux/hooks'
+import { Address as LocationType } from 'types/map'
+import Router from 'next/router'
 
 interface IconType {
   [index: number]: any
 }
 
+interface Address {
+  memberAddrs?: string
+  addrsName: string
+  x: number
+  y: number
+}
+
 export default function Save() {
-  const [choice, setChoice] = React.useState<number>()
+  const [addressInfo, setAddressInfo] = React.useState<Address>({} as any)
+  const [location, setLocation] = React.useState<LocationType>()
+  const [choice, setChoice] = React.useState<number>(0)
+  const [value, setValue] = React.useState('')
   const $place = React.useRef<null[] | HTMLDivElement[]>([])
   const iconComponent: IconType = {
     0: <HomeIcon width={20} height={20} />,
@@ -22,21 +37,27 @@ export default function Save() {
     2: <EtcIcon width={20} height={20} />,
   }
 
+  const { mbId } = useAppSelector((state) => state.user.userInfo)
+  const mutation = useMutation((addressInfo: Address) =>
+    userAPI.setLocation(mbId, addressInfo),
+  )
+  console.log(addressInfo)
   const sessionData = sessionStorage.getItem('saveLocation')
-  const location = sessionData && JSON.parse(sessionData)
 
   React.useEffect(() => {
-    if (choice !== undefined) {
-      $place.current.forEach((place, index) => {
-        if (index === choice) {
-          console.log(place)
-          place?.classList.add(`${styles.selected}`)
-        } else {
-          place?.classList.remove(`${styles.selected}`)
+    if (sessionData) {
+      const location = JSON.parse(sessionData)
+      setLocation(location)
+      setAddressInfo(() => {
+        return {
+          memberAddrs: location.roadAddress,
+          x: location.latlng.lat,
+          y: location.latlng.lng,
+          addrsName: '우리집',
         }
       })
     }
-  }, [choice])
+  }, [sessionData])
 
   return (
     <div className={styles.container}>
@@ -60,7 +81,14 @@ export default function Save() {
                   <div
                     key={index}
                     ref={(elem) => ($place.current[index] = elem)}
-                    onClick={() => setChoice(index)}
+                    onClick={() => {
+                      setChoice(index)
+                      setAddressInfo({
+                        ...addressInfo,
+                        addrsName: place === '기타' ? '' : place,
+                      })
+                    }}
+                    className={choice === index ? styles.selected : ''}
                   >
                     {iconComponent[index]} {place}
                   </div>
@@ -72,9 +100,24 @@ export default function Save() {
                 type="text"
                 placeholder="주소 별명 입력"
                 className={styles.input}
+                value={value}
+                onChange={(e) => {
+                  setValue(e.target.value)
+                  setAddressInfo({ ...addressInfo, addrsName: e.target.value })
+                }}
               ></input>
             )}
-            <button className={styles.button}>저장</button>
+            <button
+              className={styles.button}
+              disabled={!addressInfo.addrsName}
+              onClick={() =>
+                mutation.mutate(addressInfo, {
+                  onSuccess: () => Router.push('/location'),
+                })
+              }
+            >
+              저장
+            </button>
           </>
         )}
       </section>

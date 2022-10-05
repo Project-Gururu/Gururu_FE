@@ -17,14 +17,14 @@
 }
 
 .section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0.5rem 1rem;
+  padding: 1rem 1.4rem;
   position: relative;
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
 
-  & button {
+  button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -38,5 +38,23 @@
     font-size: 3rem;
     color: white;
     background-color: $color-brown-500;
+  }
+}
+
+.addressItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  div:nth-of-type(1) {
+    flex-grow: 1;
+    gap: 0.2rem;
+    padding-bottom: 0.4rem;
+    border-bottom: $color-brown-100 1px solid;
+  }
+  p {
+    margin: 0;
+  }
+  p:nth-of-type(1) {
+    font-weight: 700;
   }
 }

@@ -52,6 +52,10 @@ export default function Search() {
               setAddress({
                 address: result[0].address?.address_name,
                 roadAddress: result[0].road_address?.address_name,
+                latlng: {
+                  lat: latitude,
+                  lng: longitude,
+                },
               })
             })
           },
@@ -143,7 +147,7 @@ export default function Search() {
     console.log(address)
     Router.push('/map')
   }
-
+  console.log(address)
   return (
     <div className={styles.container}>
       <Header title="지도에서 위치 확인" />

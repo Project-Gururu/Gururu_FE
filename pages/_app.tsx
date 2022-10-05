@@ -1,12 +1,16 @@
-import ErrorBoundary from 'components/common/ErrorBoundary'
 import type { AppProps } from 'next/app'
+import { useRouter } from 'next/router'
 import { store } from 'redux/store'
 import { Provider } from 'react-redux'
+import { useEffect } from 'react'
+
+import ErrorBoundary from 'components/common/ErrorBoundary'
+
 import 'styles/global.scss'
 import 'styles/lib/Calendar.scss'
 import 'styles/lib/BottomSheet.scss'
-import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 declare global {
   interface Window {
@@ -16,6 +20,7 @@ declare global {
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter()
+  const queryClient = new QueryClient()
 
   useEffect(() => storePathValues, [router.asPath])
 
@@ -29,9 +34,12 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <Provider store={store}>
-      <ErrorBoundary>
-        <Component {...pageProps} />
-      </ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={false} />
+        <ErrorBoundary>
+          <Component {...pageProps} />
+        </ErrorBoundary>
+      </QueryClientProvider>
     </Provider>
   )
 }
