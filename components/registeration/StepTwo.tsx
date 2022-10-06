@@ -2,7 +2,7 @@ import {Dispatch, SetStateAction, useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { regMenu } from 'redux/modules/reg';
 import { RootState } from 'redux/store';
-import style from '../styles/components/Register.module.scss'
+import style from '../../styles/components/Register.module.scss'
 interface CounterProps {
     numState: [number, Dispatch<SetStateAction<number>>];
 }

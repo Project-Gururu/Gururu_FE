@@ -1,9 +1,9 @@
 import React, {useState} from "react"
 import style from '../../styles/components/Register.module.scss'
-import ArrowLeft from '../../image/icon/arrowl.svg'
-import StepOne from "components/StepOne"
-import StepThree from "components/StepThree"
-import StepTwo from "components/StepTwo"
+import ArrowLeft from '../../public/images/arrow-left.svg'
+import StepOne from "components/registeration/StepOne"
+import StepThree from "components/registeration/StepThree"
+import StepTwo from "components/registeration/StepTwo"
 import Router from "next/router"
 
 const Index: React.FC = () => {

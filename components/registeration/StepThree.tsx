@@ -2,7 +2,7 @@ import React, {Dispatch, SetStateAction, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { regStylist } from "redux/modules/reg";
 import { RootState } from "redux/store";
-import style from '../styles/components/Register.module.scss'
+import style from '../../styles/components/Register.module.scss'
 interface CounterProps {
     numState: [number, Dispatch<SetStateAction<number>>];
 }
@@ -11,6 +11,14 @@ const StepThree: React.FC<CounterProps> = ({ numState: [count, setCount] }) => {
     const dispatch = useDispatch();
     let [num, setNum] = useState(0)
     const stylists = useSelector((state: RootState) => state.reg.stylists);
+
+    const initialState = {
+        beauticianName:"",
+        beauticianDesc:"",
+        beauticianHoliday:"",
+        beauticianOpenTime:"",
+        beauticianCloseTime:""
+    }
     let [stylist, setStylist] = useState<any>({
         beauticianName:"",
         beauticianDesc:"",
@@ -18,6 +26,9 @@ const StepThree: React.FC<CounterProps> = ({ numState: [count, setCount] }) => {
         beauticianOpenTime:"",
         beauticianCloseTime:"",
     })
+    const clearState = () => {
+        setStylist({...initialState})
+    }
     const [image, setImage] = useState();
     const hidden = React.useRef(null);
     const handleClick = () => {
@@ -48,7 +59,8 @@ const StepThree: React.FC<CounterProps> = ({ numState: [count, setCount] }) => {
             setNum(0);
             return;
           }
-        dispatch(regStylist(data));
+        dispatch(regStylist(data)).then(clearState);
+        setNum(0);
     }
 
     return (

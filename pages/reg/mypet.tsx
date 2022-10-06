@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import style from '../../styles/components/Register.module.scss'
 import Router from "next/router"
-import ArrowLeft from '../../image/icon/arrowl.svg'
+import ArrowLeft from '../../public/images/arrow-left.svg'
 
 const Mypet: React.FC = () => {
 const [petinfo, setPetInfo] = useState({
