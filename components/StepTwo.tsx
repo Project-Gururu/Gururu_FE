@@ -1,4 +1,7 @@
 import {Dispatch, SetStateAction, useState} from 'react'
+import { useSelector, useDispatch } from 'react-redux';
+import { regMenu } from 'redux/modules/reg';
+import { RootState } from 'redux/store';
 import style from '../styles/components/Register.module.scss'
 interface CounterProps {
     numState: [number, Dispatch<SetStateAction<number>>];
@@ -6,52 +9,95 @@ interface CounterProps {
 
 const StepTwo: React.FC<CounterProps> =
 ({numState: [count, setCount]}) => {
-
-    let [list, setList] = useState([{
+    const dispatch = useDispatch();
+    let [num, setNum] = useState(0)
+    let [menu, setMenu] = useState({
+        storeRegisterId: "",
         size: "",
-    },])
-    let [menu, setMenu] = useState([{
-        name: "",
-        desc: "",
-        price: "",
-    }])
-    const addList = () => {
-        setList([...list, { size: ""}])
+        beautyName: "",
+        beautyDesc: "",
+        amount: ""
+    })
+
+    const products = useSelector((state: RootState) => state.reg.menu)
+    const categories = [...new Set(products.map((e) => e.size))]
+    console.log(products)
+    const onChangeHandler = (e: any) => {
+        const { name, value } = e.target;
+        setMenu({ ...menu, [name]: value});
     }
 
     const goNext = () => {
         setCount(count + 1);
     }
-
-    const del = (idx: number) => {
-        list.splice(idx, 1);
-        console.log(list)
+    const Save = () => {
+        dispatch(regMenu(menu))
+        setNum(0)
     }
-
-
-
-    console.log(list)
 
     return (
         <>
         <div className={style.Grid}>
             <div className={style.Grid}>
                 <div className={style.Table}>
-                    <div onClick={addList}>카테고리 추가</div>
-                    {list.map((list, idx) => {
-                        return(
-                        <div className={style.Category} key={idx}>
+                    <div className={style.Menu}>
+                        <div>미용</div>
+                    {num === 0 ?
+                    <button style={{marginLeft: "auto"}} onClick={() => setNum(1)}>추가하기</button>
+                    :
+                        <div className={style.Category}>
                             <input
                                 type="text"
-                                onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                                    list.size = e.currentTarget.value;
-                                }}
+                                name="size"
+                                placeholder='사이즈'
+                                onChange={onChangeHandler}
                             />
-                            <div className={style.del} onClick={() => del(idx)}>X</div>
-                            <div className={style.open}> 열기 </div>
+                            <input
+                                type="text"
+                                name="beautyName"
+                                placeholder='미용 이름'
+                                onChange={onChangeHandler}
+                            />
+                            <input
+                                type="text"
+                                name="beautyDesc"
+                                placeholder='미용 소개'
+                                onChange={onChangeHandler}
+                            />
+                            <input
+                                type="text"
+                                name="amount"
+                                placeholder='가격'
+                                onChange={onChangeHandler}
+                            />
+                            <button onClick={Save}>저장하기</button>
                         </div>
+                        }
+                    </div>
+                </div>
+                <div className={style.Table}>
+                    <div>카테고리</div>
+                    {categories ?
+                    categories.map((list, idx) => {
+                        let subMenu = products.filter((e) => e.size == list)
+                        return(
+                            <div className={style.Category} key={idx}>
+                                <div>{list}</div>
+                                {subMenu.map((e, idx) => {
+                                    return(
+                                        <div className={style.Category} key={idx}>
+                                            <div>{e.beautyName}</div>
+                                            <div>{e.beautyDesc}</div>
+                                            <div>{e.amount} 원</div>
+                                        </div>
+                                    )
+                                })}
+                            </div>
                         )
-                    })}
+                    })
+                        :
+                        <>아직 아무런 미용이 등록되있지 않습니다</>
+                    }
                 </div>
             </div>
             <div className={style.Button} onClick={goNext}> 다음으로</div>
