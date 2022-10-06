@@ -79,7 +79,7 @@ const StepTwo: React.FC<CounterProps> =
                     <div>카테고리</div>
                     {categories ?
                     categories.map((list, idx) => {
-                        let subMenu = products.filter((e) => e.size == list )
+                        let subMenu = products.filter((e) => e.size == list)
                         return(
                             <div className={style.Category} key={idx}>
                                 <div>{list}</div>
