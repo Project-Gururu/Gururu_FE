@@ -110,23 +110,30 @@ export default function Search() {
   React.useEffect(() => {
     if (!(kakaoMap && kakaoMarker)) return
     window.kakao.maps.event.addListener(kakaoMap, 'center_changed', () => {
+      kakaoMarker.setPosition(kakaoMap.getCenter())
+    })
+  }, [kakaoMap, kakaoMarker])
+
+  /** 중심좌표 변경 시 주소 변경 */
+  React.useEffect(() => {
+    if (!kakaoMap) return
+    window.kakao.maps.event.addListener(kakaoMap, 'idle', () => {
       kakaoGeocoder.coord2Address(
-        kakaoMap.getCenter().La,
-        kakaoMap.getCenter().Ma,
-        _.throttle((result: any) => {
+        kakaoMap.getCenter().getLng(),
+        kakaoMap.getCenter().getLat(),
+        (result: any) => {
           setAddress({
             address: result[0].address?.address_name,
             roadAddress: result[0].road_address?.address_name,
             latlng: {
-              lat: kakaoMap.getCenter().Ma,
-              lng: kakaoMap.getCenter().La,
+              lat: kakaoMap.getCenter().getLat(),
+              lng: kakaoMap.getCenter().getLng(),
             },
           })
-        }, 500),
+        },
       )
-      kakaoMarker.setPosition(kakaoMap.getCenter())
     })
-  }, [kakaoMap, kakaoMarker, kakaoGeocoder])
+  }, [kakaoMap, kakaoGeocoder])
 
   /** 지도 드래그 시 커스텀 오버레이 제거 */
   React.useEffect(() => {
