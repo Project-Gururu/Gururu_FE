@@ -20,7 +20,7 @@
 }
 
 .Grid {
-    padding: 16px;
+    padding: 8px;
 }
 
 .Input {
@@ -30,7 +30,7 @@ margin: 16px auto;
 }
 
 .Table {
-padding: 16px;
+padding: 8px;
 border: 1px solid black
 }
 
@@ -54,13 +54,32 @@ margin-left: auto;
 }
 
 .Stylelist {
-padding: 16px;
+padding: 8px;
 border: 1px solid black;
 margin-top: 8px;
     .photo{
         width: 90%;
         height: 70px;
         border: 1px solid black;
+    }
+}
+
+.list {
+padding: 8px;
+border: 1px solid black;
+display: flex;
+flex-wrap: wrap;
+margin-top: 8px;
+    .phto {
+        width: 33%;
+        height: 120px;
+        border: 1px solid black;
+        justify-content: center;
+        display: flex;
+        margin-right: 8px;
+    }
+    .info {
+        height: 24px;
     }
 }
 

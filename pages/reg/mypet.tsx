@@ -1,10 +1,26 @@
 import React, {useState} from "react";
+import { useDispatch, useSelector } from "react-redux";
 import style from '../../styles/components/Register.module.scss'
 import Router from "next/router"
 import ArrowLeft from '../../public/images/arrow-left.svg'
+import { delMyPet, regMyPet } from "redux/modules/reg";
+import { RootState } from "redux/store";
+import Delete from '../../public/images/icon-delete.svg'
+import Edit from '../../public/images/icon-edit.svg'
 
 const Mypet: React.FC = () => {
-const [petinfo, setPetInfo] = useState({
+const dispatch = useDispatch();
+const petList = useSelector((state:RootState) => state.reg.myPet)
+let [num, setNum] = useState(0);
+
+const initialState = {
+    petName: "",
+    petSex: "",
+    petSpec: "",
+    petInfo: ""
+}
+
+const [petinfo, setPetInfo] = useState<any>({
     petName: "",
     petSex: "",
     petSpec: "",
@@ -17,12 +33,23 @@ const onChangeHandler = (e: any) => {
     setPetInfo({ ...petinfo, [name]: value});
 }
 
+const remove = (idx: number) => {
+  dispatch(delMyPet(idx))
+}
+
 const send = () => {
     let data = {
         petImage: image,
         ...petinfo
     }
     console.log(data)
+    {petinfo.petName === "" || petinfo.petSex === "" || petinfo.petSpec === ""|| petinfo.petInfo === "" ?
+    null
+    :
+    dispatch(regMyPet(data))
+    setPetInfo({...initialState})
+    }
+    setNum(0)
 }
 
 const hidden = React.useRef(null);
@@ -38,6 +65,8 @@ const hidden = React.useRef(null);
         <>
         <ArrowLeft onClick={() => Router.push("/mypage")}/>
         <div className={style.Grid}>
+        {num === 1 ?
+          <>
             <div
               className={style.Photo}
               onClick={handleClick}
@@ -79,6 +108,36 @@ const hidden = React.useRef(null);
               onClick={send}
             >저장하기
             </div>
+          </>
+        :
+        <div
+          className={style.Button}
+          onClick={()=>setNum(1)}
+        > 추가하기 </div>
+        }
+
+        {petList ? petList.map((el, idx) => {
+          return(
+          <div className={style.Table} key={idx}>
+            <div>
+              <div></div>
+            </div>
+            <div style={{position: "relative"}}>
+              <Edit style={{position: "absolute", top: "0", right: "0"}}/>
+              <Delete
+                  style={{position: "absolute", top: "0", right: "45"}}
+                  onClick={() => remove(idx)}
+              />
+              <div>{el.petName}</div>
+              <div>{el.petSex}</div>
+              <div>{el.petSpec}</div>
+              <div>{el.petInfo}</div>
+            </div>
+          </div>
+          )})
+          :
+          null
+        }
         </div>
         </>
     )

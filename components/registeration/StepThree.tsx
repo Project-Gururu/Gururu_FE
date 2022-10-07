@@ -2,6 +2,7 @@ import React, {Dispatch, SetStateAction, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { regStylist } from "redux/modules/reg";
 import { RootState } from "redux/store";
+import Edit from "../../public/images/icon-edit.svg"
 import style from '../../styles/components/Register.module.scss'
 interface CounterProps {
     numState: [number, Dispatch<SetStateAction<number>>];
@@ -86,12 +87,6 @@ const StepThree: React.FC<CounterProps> = ({ numState: [count, setCount] }) => {
                         onChange={onChangeHandler}
                         />
                     <input
-                        type="text"
-                        name="beauticianDesc"
-                        placeholder="미용사소개"
-                        onChange={onChangeHandler}
-                    />
-                    <input
                         type='file'
                         ref={hidden}
                         style={{ display: "none"}}
@@ -115,6 +110,12 @@ const StepThree: React.FC<CounterProps> = ({ numState: [count, setCount] }) => {
                         placeholder="미용사퇴근시간"
                         onChange={onChangeHandler}
                     />
+                    <input
+                        type="text"
+                        name="beauticianDesc"
+                        placeholder="미용사소개"
+                        onChange={onChangeHandler}
+                    />
                     <button onClick={Save}>저장하기</button>
                     </div>
                     }
@@ -125,12 +126,17 @@ const StepThree: React.FC<CounterProps> = ({ numState: [count, setCount] }) => {
                     :
                     stylists.map((list,idx) => {
                         return(
-                            <div className={style.Stylelist} key={idx}>
-                                <div>이름: {list.beauticianName}</div>
-                                <div>소개: {list.beauticianDesc}</div>
-                                <div>휴뮤: {list.beauticianHoliday}</div>
-                                <div>출근: {list.beauticianOpenTime} 시</div>
-                                <div>퇴근: {list.beauticianCloseTime} 시</div>
+                            <div className={style.list} key={idx}>
+                                <div className={style.phto}>
+                                    <div> 사진 </div>
+                                </div>
+                                <div style={{position: "relative", width: "63%"}}>
+                                    <div>이름: {list.beauticianName}</div>
+                                    <div>휴뮤: {list.beauticianHoliday}</div>
+                                    <div>출근: {list.beauticianOpenTime} 시</div>
+                                    <div>퇴근: {list.beauticianCloseTime} 시</div>
+                                    <div>소개: {list.beauticianDesc}</div>
+                                </div>
                             </div>
                         )
                     })
