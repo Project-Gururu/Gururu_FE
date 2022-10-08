@@ -1,5 +1,8 @@
 import React from 'react'
-import Router from 'next/router'
+import Router, { useRouter } from 'next/router'
+import { useAppSelector } from 'redux/hooks'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { userAPI } from 'redux/api'
 
 import Header from 'components/common/Header/Header'
 import Post from 'components/location/Post/Post'
@@ -9,14 +12,6 @@ import CompanyIcon from 'public/images/company.svg'
 import EtcIcon from 'public/images/marker.svg'
 
 import styles from 'styles/pages/location/Location.module.scss'
-import { useAppSelector } from 'redux/hooks'
-import {
-  QueryClient,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from '@tanstack/react-query'
-import { userAPI } from 'redux/api'
 
 interface LocationProps {
   mbId: string
@@ -29,24 +24,22 @@ interface LocationProps {
 
 export default function Index() {
   const queryClient = useQueryClient()
+  const router = useRouter()
   const { mbId } = useAppSelector((state) => state.user.userInfo)
-  const { isFetching, isLoading, data } = useQuery<LocationProps[]>(
-    ['locationData'],
-    () => userAPI.getTotalLocation(mbId),
+  const { isLoading, data } = useQuery<LocationProps[]>(['locationData'], () =>
+    userAPI.getTotalLocation(mbId),
   )
   const mutation = useMutation(
     (data: { mbId: string; memberLocalId: string }) =>
       userAPI.deleteLocation(data),
   )
 
-  console.log(data, isLoading, isFetching)
-  console.log(mutation.mutate)
   return (
     <div className={styles.container}>
       <Header title="주소 설정" />
       <div className={styles.wrap}>
-        <Post />
-        <Location title="현재 위치로 설정" />
+        <Post prevPath={router.pathname} />
+        <Location title="현재 위치로 설정" prevPath={router.pathname} />
       </div>
       <div className={styles.divider}></div>
       <section className={styles.section}>

@@ -1,0 +1,87 @@
+.container {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.wrap {
+  padding: 0 1.2rem;
+}
+
+.post {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  & svg {
+    position: absolute;
+    top: 21.5px;
+    left: 14px;
+  }
+
+  & input {
+    width: 100%;
+    background-color: $color-brown-100;
+    margin: 0.5rem auto 0;
+    padding: 0.8rem 2rem 0.7rem;
+    border: none;
+    border-radius: 0.4rem;
+    color: $color-gray-400;
+    font-size: 0.8rem;
+    cursor: pointer;
+  }
+}
+
+.section {
+  padding: 1rem 1.4rem;
+  position: relative;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 1.5rem;
+    border: none;
+    font-size: 3rem;
+    color: white;
+    background-color: $color-brown-500;
+  }
+}
+
+.addrItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 0.4rem;
+  p {
+    font-weight: 500;
+    margin: 0;
+  }
+  div {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    div {
+      padding: 0.3rem;
+      margin-top: 0.2rem;
+      border-radius: 0.3rem;
+      font-size: 0.7rem;
+      background-color: $color-brown-100;
+      color: $color-gray-400;
+      height: 1.1rem;
+      white-space: nowrap;
+    }
+  }
+}

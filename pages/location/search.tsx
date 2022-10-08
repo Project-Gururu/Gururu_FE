@@ -1,6 +1,5 @@
 import React from 'react'
-import _ from 'lodash'
-import Router from 'next/router'
+import Router, { useRouter } from 'next/router'
 import { useAppDispatch } from 'redux/hooks'
 import { setAddress as userAction } from 'redux/modules/user'
 
@@ -13,6 +12,9 @@ import styles from 'styles/pages/location/Search.module.scss'
 import { Address, Location } from 'types/map'
 
 export default function Search() {
+  const dispatch = useAppDispatch()
+  const router = useRouter()
+
   const $containerRef = React.useRef<HTMLDivElement>(null)
   const [kakaoMap, setKakaoMap] = React.useState<any>(null)
   const [kakaoMarker, setKakaoMarker] = React.useState<any>(null)
@@ -21,7 +23,6 @@ export default function Search() {
   const [address, setAddress] = React.useState<Address>({})
   const [initLocation, setInitLocation] = React.useState<Location>()
   const [click, setClick] = React.useState<Boolean>(false)
-  const dispatch = useAppDispatch()
 
   /** 내 위치로 이동하는 함수 */
   const setLatLon = () => {
@@ -145,16 +146,15 @@ export default function Search() {
 
   /** 주소 변경 후 메인 페이지 이동 */
   const onSubmit = () => {
-    if (sessionStorage.getItem('prevPath') === '/location/save') {
+    if (router.query.prevPath === '/location/save') {
       sessionStorage.setItem('saveLocation', JSON.stringify(address))
       Router.back()
       return
     }
     dispatch(userAction(address))
-    console.log(address)
     Router.push('/map')
   }
-  console.log(address)
+
   return (
     <div className={styles.container}>
       <Header title="지도에서 위치 확인" />
