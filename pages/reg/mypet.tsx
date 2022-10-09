@@ -20,7 +20,7 @@ const initialState = {
     petInfo: ""
 }
 
-const [petinfo, setPetInfo] = useState<any>({
+const [petinfo, setPetInfo] = useState({
     petName: "",
     petSex: "",
     petSpec: "",
@@ -115,8 +115,8 @@ const hidden = React.useRef(null);
           onClick={()=>setNum(1)}
         > 추가하기 </div>
         }
-
-        {petList ? petList.map((el, idx) => {
+        <div className={style.Table}>
+        {petList.length > 0 ? petList.map((el, idx) => {
           return(
           <div className={style.Table} key={idx}>
             <div>
@@ -136,8 +136,9 @@ const hidden = React.useRef(null);
           </div>
           )})
           :
-          null
+          <div>등록하신 반려동물이 없습니다!</div>
         }
+        </div>
         </div>
         </>
     )
