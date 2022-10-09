@@ -223,7 +223,7 @@ export default function Index() {
                 <p>{value.bdNm ? value.bdNm : value.jibunAddr}</p>
                 <div>
                   <div>도로명</div>
-                  {value.roadAddr}
+                  <div>{value.roadAddr}</div>
                 </div>
               </div>
             )

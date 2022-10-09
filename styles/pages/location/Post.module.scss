@@ -68,10 +68,14 @@
   }
   div {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 0.4rem;
     font-size: 0.8rem;
-    div {
+    white-space: nowrap;
+
+    & div:first-child {
+      display: flex;
+      align-items: center;
       padding: 0.3rem;
       margin-top: 0.2rem;
       border-radius: 0.3rem;
@@ -80,6 +84,13 @@
       color: $color-gray-400;
       height: 1.1rem;
       white-space: nowrap;
+    }
+
+    & div:last-child {
+      width: 100%;
+      white-space: normal;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 }
