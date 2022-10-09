@@ -11,33 +11,64 @@ import SearchIcon from 'public/images/search-thick.svg'
 
 import styles from 'styles/pages/location/Post.module.scss'
 
+interface Infinity {
+  nextPage: number
+  data: any[]
+  isLast: boolean
+}
 export default function Index() {
   const dispatch = useAppDispatch()
   const router = useRouter()
 
   const $inputRef = React.useRef<HTMLInputElement>(null)
-  const [errorText, setErrorText] = React.useState<string>('')
+  const $targetRef = React.useRef<HTMLDivElement>(null)
+  const $observerRef = React.useRef<IntersectionObserver>()
+  const [searchValue, setSearchValue] = React.useState<string>('')
+  const [infinityInfo, setInfinityInfo] = React.useState<Infinity>({
+    nextPage: 1,
+    data: [],
+    isLast: false,
+  })
 
-  const { data, isLoading, mutate } = useMutation((data: string) =>
-    axios.get(
-      `https://business.juso.go.kr/addrlink/addrLinkApi.do?currentPage=1&countPerPage=10&keyword=${data}&confmKey=devU01TX0FVVEgyMDIyMTAwODEyNTg1NDExMzAzOTU=&resultType=json
-    `,
-    ),
+  const fetchPostData = async ({
+    pageParam,
+    searchValue,
+  }: {
+    pageParam: number
+    searchValue: string
+  }) => {
+    const response = await axios
+      .get(
+        `https://business.juso.go.kr/addrlink/addrLinkApi.do?currentPage=${pageParam}&countPerPage=20&keyword=${searchValue}&confmKey=devU01TX0FVVEgyMDIyMTAwODEyNTg1NDExMzAzOTU=&resultType=json
+  `,
+      )
+      .then((res) => res.data)
+    const result = response.results
+    setInfinityInfo({
+      data: [...infinityInfo.data, ...result.juso],
+      nextPage: pageParam + 1,
+      isLast:
+        pageParam ===
+        parseInt(result.common.totalCount) /
+          parseInt(result.common.countPerPage),
+    })
+  }
+
+  const { mutate, isError, isLoading } = useMutation(
+    ['posts'],
+    ({ pageParam, searchValue }: { pageParam: number; searchValue: string }) =>
+      fetchPostData({ pageParam, searchValue }),
   )
-  console.log(data)
+
+  /** 검색어 검수 */
   const checkSearchedWord = (word: string) => {
     if (word.length > 0) {
-      // 특수문자 제거
       const expText = /[%=><]/
       if (expText.test(word) == true) {
-        setErrorText('특수문자를 입력 할수 없습니다.')
         word = word.split(expText).join('')
         return false
       }
-
-      // 특정문자열(sql예약어의 앞뒤공백포함) 제거
       const sqlArray = new Array(
-        //sql 예약어
         'OR',
         'SELECT',
         'INSERT',
@@ -51,11 +82,9 @@ export default function Index() {
         'DECLARE',
         'TRUNCATE',
       )
-
       let regex
       for (var i = 0; i < sqlArray.length; i++) {
         regex = new RegExp(sqlArray[i], 'gi')
-
         if (regex.test(word)) {
           alert(
             '"' + sqlArray[i] + '"와(과) 같은 특정문자로 검색할 수 없습니다.',
@@ -67,23 +96,6 @@ export default function Index() {
     }
     return true
   }
-
-  /** input 포커싱 처리 */
-  React.useEffect(() => {
-    $inputRef.current?.focus()
-  }, [])
-
-  /** input enter 이벤트 */
-  React.useEffect(() => {
-    $inputRef.current?.addEventListener('keyup', (event) => {
-      if (event.key === 'Enter') {
-        const value = (event.target as HTMLInputElement).value
-        if (!checkSearchedWord(value)) return
-        // focus 취소하기
-        mutate(value)
-      }
-    })
-  }, [mutate])
 
   /** 조회된 주소를 클릭할 시 Geocoder를 이용한 위경도 반환 및 메인페이지 주소 재적용 */
   const onSelectAddr = (roadAddr: string) => {
@@ -123,6 +135,51 @@ export default function Index() {
     })
   }
 
+  /** input 포커싱 처리 */
+  React.useEffect(() => {
+    $inputRef.current?.focus()
+  }, [])
+
+  /** input enter 이벤트 */
+  React.useEffect(() => {
+    $inputRef.current?.addEventListener('keyup', (event) => {
+      if (event.key === 'Enter') {
+        const value = (event.target as HTMLInputElement).value
+        if (!checkSearchedWord(value)) return
+        setInfinityInfo({
+          nextPage: 1,
+          data: [],
+          isLast: false,
+        })
+        mutate({ pageParam: 1, searchValue: value })
+      }
+    })
+  }, [mutate])
+
+  /** IntersectionObserver 설정 */
+  const intersectionObserver = (
+    entries: IntersectionObserverEntry[],
+    io: IntersectionObserver,
+  ) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        // 관찰하고 있는 entry가 화면에 보여지는 경우
+        io.unobserve(entry.target) // entry 관찰 해제
+        mutate({ pageParam: infinityInfo.nextPage + 1, searchValue }) // 다음 페이지 데이터 요청
+      }
+    })
+  }
+
+  React.useEffect(() => {
+    $observerRef.current = new IntersectionObserver(intersectionObserver) // IntersectionObserver 새롭게 정의
+    $targetRef.current && $observerRef.current.observe($targetRef.current) // boxRef 관찰 시작
+    return () => {
+      if ($observerRef.current) {
+        $observerRef.current.disconnect()
+      }
+    }
+  }, [infinityInfo])
+
   return (
     <div className={styles.container}>
       <Header
@@ -136,6 +193,8 @@ export default function Index() {
             type="text"
             placeholder="지번, 도로명, 건물명으로 검색"
             ref={$inputRef}
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
           />
           <SearchIcon alt="" width="11" height="11" fill="gray" />
         </label>
@@ -148,17 +207,18 @@ export default function Index() {
           prevPath={router.pathname}
         />
       </div>
-      <div className={styles.divider}></div>
+      <div className={styles.divider} />
       <section className={styles.section}>
-        {isLoading ? (
-          <div>잠시만</div>
-        ) : (
-          data?.data.results.juso.map((value: any, index: number) => {
+        {isError && <div>검색어를 다시 입력해주세요</div>}
+        {isLoading && <div>잠시만 기다려봐</div>}
+        {infinityInfo.data &&
+          infinityInfo.data.map((value: any, index: number) => {
             return (
               <div
                 key={index}
                 className={styles.addrItem}
                 onClick={() => onSelectAddr(value.roadAddr)}
+                ref={infinityInfo.data.length - 5 === index ? $targetRef : null}
               >
                 <p>{value.bdNm ? value.bdNm : value.jibunAddr}</p>
                 <div>
@@ -167,8 +227,7 @@ export default function Index() {
                 </div>
               </div>
             )
-          })
-        )}
+          })}
       </section>
     </div>
   )

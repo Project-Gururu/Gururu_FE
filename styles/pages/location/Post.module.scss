@@ -10,10 +10,17 @@
   padding: 0 1.2rem;
 }
 
+.divider {
+  background-color: $color-brown-100;
+  width: 100%;
+  min-height: 0.5rem;
+}
+
 .post {
   position: relative;
   display: flex;
   align-items: center;
+  flex-grow: 1;
 
   & svg {
     position: absolute;
@@ -35,28 +42,19 @@
 }
 
 .section {
-  padding: 1rem 1.4rem;
+  padding: 0.8rem 1.4rem;
   position: relative;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
-
-  button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    width: 3rem;
-    height: 3rem;
-    border-radius: 1.5rem;
-    border: none;
-    font-size: 3rem;
-    color: white;
-    background-color: $color-brown-500;
+  overflow: auto;
+  white-space: nowrap;
+  &::-webkit-scrollbar {
+    display: none;
   }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .addrItem {
