@@ -7,7 +7,10 @@ const dispatch = useDispatch();
 
     return(
         <>
-            <div>예약 페이지</div>
+            <div>사업자 예약 페이지</div>
+            <div>
+                
+            </div>
         </>
     )
 }

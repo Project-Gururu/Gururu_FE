@@ -120,18 +120,21 @@ const hidden = React.useRef(null);
           return(
           <div className={style.Table} key={idx}>
             <div>
-              <div></div>
+              <div className={style.Photo}>사진</div>
             </div>
             <div style={{position: "relative"}}>
-              <Edit style={{position: "absolute", top: "0", right: "0"}}/>
+              <Edit
+                style={{position: "absolute", top: "0", right: "0"}}
+
+              />
               <Delete
                   style={{position: "absolute", top: "0", right: "45"}}
                   onClick={() => remove(idx)}
               />
-              <div>{el.petName}</div>
-              <div>{el.petSex}</div>
-              <div>{el.petSpec}</div>
-              <div>{el.petInfo}</div>
+              <div>이름: {el.petName}</div>
+              <div>성별: {el.petSex}</div>
+              <div>종: {el.petSpec}</div>
+              <div>특이사항: {el.petInfo}</div>
             </div>
           </div>
           )})
