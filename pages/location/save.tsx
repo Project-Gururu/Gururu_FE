@@ -21,8 +21,8 @@ interface IconType {
 interface Address {
   memberAddrs?: string
   addrsName: string
-  x: number
-  y: number
+  x: string
+  y: string
 }
 
 export default function Save() {
@@ -39,6 +39,7 @@ export default function Save() {
     1: <CompanyIcon width={20} height={20} />,
     2: <EtcIcon width={20} height={20} />,
   }
+
   const sessionData = sessionStorage.getItem('saveLocation')
 
   const mutation = useMutation((addressInfo: Address) =>
@@ -59,6 +60,25 @@ export default function Save() {
       })
     }
   }, [sessionData])
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value)
+    setAddressInfo({ ...addressInfo, addrsName: e.target.value })
+  }
+
+  const onChangePlace = (index: number, place: string) => {
+    setChoice(index)
+    setAddressInfo({
+      ...addressInfo,
+      addrsName: place === '기타' ? '' : place,
+    })
+  }
+
+  const onSubmit = () => {
+    mutation.mutate(addressInfo, {
+      onSuccess: () => Router.push('/location'),
+    })
+  }
 
   return (
     <div className={styles.container}>
@@ -82,13 +102,7 @@ export default function Save() {
                   <div
                     key={index}
                     ref={(elem) => ($place.current[index] = elem)}
-                    onClick={() => {
-                      setChoice(index)
-                      setAddressInfo({
-                        ...addressInfo,
-                        addrsName: place === '기타' ? '' : place,
-                      })
-                    }}
+                    onClick={() => onChangePlace(index, place)}
                     className={choice === index ? styles.selected : ''}
                   >
                     {iconComponent[index]} {place}
@@ -102,20 +116,13 @@ export default function Save() {
                 placeholder="주소 별명 입력"
                 className={styles.input}
                 value={value}
-                onChange={(e) => {
-                  setValue(e.target.value)
-                  setAddressInfo({ ...addressInfo, addrsName: e.target.value })
-                }}
+                onChange={onChange}
               ></input>
             )}
             <button
               className={styles.button}
               disabled={!addressInfo.addrsName}
-              onClick={() =>
-                mutation.mutate(addressInfo, {
-                  onSuccess: () => Router.push('/location'),
-                })
-              }
+              onClick={onSubmit}
             >
               저장
             </button>
