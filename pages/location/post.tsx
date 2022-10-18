@@ -1,7 +1,7 @@
 import React from 'react'
-import Router, { useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import axios from 'axios'
-import { useAppDispatch } from 'redux/hooks'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { useMutation } from '@tanstack/react-query'
 import { setAddress } from 'redux/modules/user'
 
@@ -10,15 +10,19 @@ import Location from 'components/location/Location/Location'
 import SearchIcon from 'public/images/search-thick.svg'
 
 import styles from 'styles/pages/location/Post.module.scss'
+import DeferredComponent from 'components/DeferredComponent'
+import PostItemSkeleton from 'components/ui/Skeleton/PostItemSkeleton/PostItemSkeleton'
 
 interface Infinity {
   nextPage: number
   data: any[]
   isLast: boolean
 }
+
 export default function Index() {
   const dispatch = useAppDispatch()
   const router = useRouter()
+  const { memberLocalId } = useAppSelector((state) => state.user.location)
 
   const $inputRef = React.useRef<HTMLInputElement>(null)
   const $targetRef = React.useRef<HTMLDivElement>(null)
@@ -39,14 +43,14 @@ export default function Index() {
   }) => {
     const response = await axios
       .get(
-        `https://business.juso.go.kr/addrlink/addrLinkApi.do?currentPage=${pageParam}&countPerPage=20&keyword=${searchValue}&confmKey=devU01TX0FVVEgyMDIyMTAwODEyNTg1NDExMzAzOTU=&resultType=json
+        `https://business.juso.go.kr/addrlink/addrLinkApi.do?currentPage=${pageParam}&countPerPage=20&keyword=${searchValue}&confmKey=${process.env.NEXT_PUBLIC_LOCATION_KEY}&resultType=json
   `,
       )
       .then((res) => res.data)
     const result = response.results
     setInfinityInfo({
       data: [...infinityInfo.data, ...result.juso],
-      nextPage: pageParam + 1,
+      nextPage: pageParam,
       isLast:
         pageParam ===
         parseInt(result.common.totalCount) /
@@ -108,26 +112,28 @@ export default function Index() {
               setAddress({
                 address: result[0].address.address_name,
                 roadAddress: result[0].address_name,
-                latlng: {
-                  lat: result[0].y,
-                  lng: result[0].x,
-                },
+                memberLocalId: memberLocalId,
+                latitude: result[0].y,
+                longitude: result[0].x,
               }),
             )
-            Router.push('/map')
+            router.push({
+              pathname: '/map',
+              query: {
+                prevPath: router.pathname,
+              },
+            })
           } else {
             sessionStorage.setItem(
               'saveLocation',
               JSON.stringify({
                 address: result[0].address.address_name,
                 roadAddress: result[0].address_name,
-                latlng: {
-                  lat: result[0].y,
-                  lng: result[0].x,
-                },
+                latitude: result[0].y,
+                longitude: result[0].x,
               }),
             )
-            Router.back()
+            router.back()
             return
           }
         }
@@ -210,7 +216,11 @@ export default function Index() {
       <div className={styles.divider} />
       <section className={styles.section}>
         {isError && <div>검색어를 다시 입력해주세요</div>}
-        {isLoading && <div>잠시만 기다려봐</div>}
+        {isLoading && (
+          <DeferredComponent>
+            <PostItemSkeleton />
+          </DeferredComponent>
+        )}
         {infinityInfo.data &&
           infinityInfo.data.map((value: any, index: number) => {
             return (

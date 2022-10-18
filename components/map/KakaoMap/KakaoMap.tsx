@@ -11,7 +11,6 @@ export default function KakaoMap() {
   const location = useAppSelector<null | Address>(
     (state) => state.user.location,
   )
-  console.log(location)
   const $containerRef = useRef<HTMLDivElement>(null)
   const [kakaoMap, setKakaoMap] = useState<any>(null)
   const [initLocation, setInitLocation] = useState<Location>()
@@ -32,15 +31,15 @@ export default function KakaoMap() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           ({ coords: { latitude, longitude } }) => {
-            if (location && location.latlng) {
+            if (location?.latitude) {
               setInitLocation({
-                latitude: location.latlng.lat,
-                longitude: location.latlng.lng,
+                latitude: Number(location.latitude),
+                longitude: Number(location.longitude),
               })
               const map = new window.kakao.maps.Map($containerRef.current, {
                 center: new window.kakao.maps.LatLng(
-                  location.latlng.lat,
-                  location.latlng.lng,
+                  location.latitude,
+                  location.longitude,
                 ),
                 level: 3,
               })

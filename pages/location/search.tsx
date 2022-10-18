@@ -1,9 +1,11 @@
 import React from 'react'
-import Router, { useRouter } from 'next/router'
-import { useAppDispatch } from 'redux/hooks'
+import { useRouter } from 'next/router'
+import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { setAddress as userAction } from 'redux/modules/user'
 
 import Header from 'components/common/Header/Header'
+import Button from 'components/ui/Button/Button'
+import Container from 'components/ui/Container/Container'
 import GpsIcon from 'public/images/gps.svg'
 import RefreshIcon from 'public/images/refresh.svg'
 
@@ -14,6 +16,7 @@ import { Address, Location } from 'types/map'
 export default function Search() {
   const dispatch = useAppDispatch()
   const router = useRouter()
+  const { memberLocalId } = useAppSelector((state) => state.user.location)
 
   const $containerRef = React.useRef<HTMLDivElement>(null)
   const [kakaoMap, setKakaoMap] = React.useState<any>(null)
@@ -53,10 +56,9 @@ export default function Search() {
               setAddress({
                 address: result[0].address?.address_name,
                 roadAddress: result[0].road_address?.address_name,
-                latlng: {
-                  lat: latitude,
-                  lng: longitude,
-                },
+                latitude: String(latitude),
+                longitude: String(longitude),
+                memberLocalId: memberLocalId,
               })
             })
           },
@@ -126,10 +128,9 @@ export default function Search() {
           setAddress({
             address: result[0].address?.address_name,
             roadAddress: result[0].road_address?.address_name,
-            latlng: {
-              lat: kakaoMap.getCenter().getLat(),
-              lng: kakaoMap.getCenter().getLng(),
-            },
+            latitude: String(kakaoMap.getCenter().getLat()),
+            longitude: String(kakaoMap.getCenter().getLng()),
+            memberLocalId: memberLocalId,
           })
         },
       )
@@ -148,15 +149,20 @@ export default function Search() {
   const onSubmit = () => {
     if (router.query.prevPath === '/location/save') {
       sessionStorage.setItem('saveLocation', JSON.stringify(address))
-      Router.back()
+      router.back()
       return
     }
     dispatch(userAction(address))
-    Router.push('/map')
+    router.push({
+      pathname: '/map',
+      query: {
+        prevPath: router.pathname,
+      },
+    })
   }
 
   return (
-    <div className={styles.container}>
+    <Container>
       <Header title="지도에서 위치 확인" />
       <div className={styles.map} ref={$containerRef}>
         <button onClick={() => setLatLon()} className={styles.myLocation}>
@@ -180,16 +186,14 @@ export default function Search() {
             {click ? ' 도로명으로 보기' : ' 지번으로 보기'}
           </button>
         </div>
-        <button
-          className={styles.button}
-          onClick={onSubmit}
-          disabled={!address.roadAddress}
-        >
+        <Button onClick={onSubmit} disabled={!address.roadAddress}>
           {address.roadAddress
-            ? '이 위치로 주소 설정'
+            ? router.query.prevPath === '/location/save'
+              ? '이 위치로 주소 저장'
+              : '이 위치로 주소 설정'
             : '정확한 주소 인식을 위해 재조정해주세요'}
-        </button>
+        </Button>
       </div>
-    </div>
+    </Container>
   )
 }

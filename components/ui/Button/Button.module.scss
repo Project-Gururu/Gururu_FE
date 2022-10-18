@@ -1,0 +1,16 @@
+.button {
+  @include center;
+  width: 100%;
+  margin: auto auto 0;
+  background-color: $color-brown-500;
+  border: none;
+  border-radius: 0.4rem;
+  padding: 0.6rem;
+  font-size: 1.1rem;
+  color: white;
+  font-weight: 600;
+
+  &:disabled {
+    background-color: $color-gray-100;
+  }
+}
