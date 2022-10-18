@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import style from '../../styles/components/Register.module.scss'
 import Router from "next/router"
 import ArrowLeft from '../../public/images/arrow-left.svg'
-import { delMyPet, regMyPet } from "redux/modules/reg";
+import { delMyPet, editMyPet, regMyPet } from "redux/modules/reg";
 import { RootState } from "redux/store";
 import Delete from '../../public/images/icon-delete.svg'
 import Edit from '../../public/images/icon-edit.svg'
@@ -12,7 +12,6 @@ const Mypet: React.FC = () => {
 const dispatch = useDispatch();
 const petList = useSelector((state:RootState) => state.reg.myPet)
 let [num, setNum] = useState(0);
-
 const initialState = {
     petName: "",
     petSex: "",
@@ -26,7 +25,18 @@ const [petinfo, setPetInfo] = useState({
     petSpec: "",
     petInfo: "",
 })
+
 const [image, setImage] = useState();
+const [change, setChange] = useState<boolean>(false);
+const handleEdit = (idx: number) => {
+  const data = {
+    index: idx,
+    ...petinfo
+  }
+  dispatch(editMyPet(data))
+  setChange(false)
+  setPetInfo({...initialState})
+}
 
 const onChangeHandler = (e: any) => {
     const { name, value } = e.target;
@@ -125,16 +135,48 @@ const hidden = React.useRef(null);
             <div style={{position: "relative"}}>
               <Edit
                 style={{position: "absolute", top: "0", right: "0"}}
-
+                onClick={() => setChange(true)}
               />
               <Delete
                   style={{position: "absolute", top: "0", right: "45"}}
                   onClick={() => remove(idx)}
               />
-              <div>이름: {el.petName}</div>
-              <div>성별: {el.petSex}</div>
-              <div>종: {el.petSpec}</div>
-              <div>특이사항: {el.petInfo}</div>
+              {change ?
+              <>
+                <input
+                  type="text"
+                  name="petName"
+                  placeholder={el.petName}
+                  onChange={onChangeHandler}
+                />
+                <input
+                  type="text"
+                  name="petSex"
+                  placeholder={el.petSex}
+                  onChange={onChangeHandler}
+                />
+                <input
+                  type="text"
+                  name="petSpec"
+                  placeholder={el.petSpec}
+                  onChange={onChangeHandler}
+                />
+                <input
+                  type="text"
+                  name="petInfo"
+                  placeholder={el.petInfo}
+                  onChange={onChangeHandler}
+                />
+                <button onClick={() => handleEdit(idx)}>수정하기</button>
+              </>
+              :
+              <>
+                <div>이름: {el.petName}</div>
+                <div>성별: {el.petSex}</div>
+                <div>종: {el.petSpec}</div>
+                <div>특이사항: {el.petInfo}</div>
+              </>
+              }
             </div>
           </div>
           )})

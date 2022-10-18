@@ -1,8 +1,10 @@
 import {Dispatch, SetStateAction, useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { regMenu } from 'redux/modules/reg';
+import { editMenu, regMenu, setEdit } from 'redux/modules/reg';
 import { RootState } from 'redux/store';
 import style from '../../styles/components/Register.module.scss'
+import Edit from '../../public/images/icon-edit.svg'
+import Del from '../../public/images/icon-delete.svg'
 interface CounterProps {
     numState: [number, Dispatch<SetStateAction<number>>];
 }
@@ -11,17 +13,27 @@ const StepTwo: React.FC<CounterProps> =
 ({numState: [count, setCount]}) => {
     const dispatch = useDispatch();
     let [num, setNum] = useState(0)
+
+    const initialState = {
+        storeRegisterId: "",
+        size: "",
+        beautyName: "",
+        beautyDesc: "",
+        amount: "",
+        edit: false
+    }
+
     let [menu, setMenu] = useState({
         storeRegisterId: "",
         size: "",
         beautyName: "",
         beautyDesc: "",
-        amount: ""
+        amount: "",
+        edit: false
     })
 
     const products = useSelector((state: RootState) => state.reg.menu)
     const categories = [...new Set(products.map((e) => e.size))]
-    console.log(products)
     const onChangeHandler = (e: any) => {
         const { name, value } = e.target;
         setMenu({ ...menu, [name]: value});
@@ -32,7 +44,16 @@ const StepTwo: React.FC<CounterProps> =
     }
     const Save = () => {
         dispatch(regMenu(menu))
+        setMenu({...initialState})
         setNum(0)
+    }
+
+    const edit = (idx: number) => {
+        dispatch(setEdit(idx))
+    }
+
+    const saveEdit = (idx: number) => {
+        dispatch(editMenu(menu))
     }
 
     return (
@@ -85,10 +106,40 @@ const StepTwo: React.FC<CounterProps> =
                                 <div>{list}</div>
                                 {subMenu.map((e, idx) => {
                                     return(
-                                        <div className={style.Category} key={idx}>
-                                            <div>{e.beautyName}</div>
-                                            <div>{e.beautyDesc}</div>
-                                            <div>{e.amount} 원</div>
+                                        <div key={idx}>
+                                            <div className={style.Category} >
+                                                <Del/>
+                                                <Edit onClick={() => edit(idx)}/>
+                                                {e.edit ?
+                                                <>
+                                                    <input
+                                                    type="text"
+                                                    name="beautyName"
+                                                    placeholder='미용 이름'
+                                                    onChange={onChangeHandler}
+                                                    />
+                                                    <input
+                                                        type="text"
+                                                        name="beautyDesc"
+                                                        placeholder='미용 소개'
+                                                        onChange={onChangeHandler}
+                                                    />
+                                                    <input
+                                                        type="text"
+                                                        name="amount"
+                                                        placeholder='가격'
+                                                        onChange={onChangeHandler}
+                                                    />
+                                                    <button onClick={() => saveEdit}>수정하기</button>
+                                                </>
+                                                :
+                                                <>
+                                                    <div>{e.beautyName}</div>
+                                                    <div>{e.beautyDesc}</div>
+                                                    <div>{e.amount} 원</div>
+                                                </>
+                                                }
+                                            </div>
                                         </div>
                                     )
                                 })}
