@@ -10,7 +10,7 @@
 }
 
 .Photo {
-    width: 300px;
+    width: 90%;
     height: 150px;
     border: 1px solid black;
     margin: auto;
@@ -39,13 +39,59 @@ border: 1px solid black
 padding: 16px;
 border: 1px solid black;
 margin-top: 8px;
-display: flex;
 
-    .del {
-        margin-left: auto;
+    input {
+        margin: 5px 0px;
     }
 
     .open {
         padding-left: 9px;
     }
+}
+
+.del {
+margin-left: auto;
+}
+
+.Stylelist {
+padding: 16px;
+border: 1px solid black;
+margin-top: 8px;
+    .photo{
+        width: 90%;
+        height: 70px;
+        border: 1px solid black;
+    }
+}
+
+.Wrap {
+display: flex;
+flex-wrap: wrap;
+
+    .Mybutton {
+        width: 150px;
+        height: 150px;
+        border: 1px solid black;
+        border-radius: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 5%;
+    }
+}
+
+.Pbar {
+display: flex;
+justify-content: center;
+
+    .step {
+        margin: 0 5%
+    }
+}
+
+.Menu {
+display: flex;
+align-content: center;
+justify-content: center;
+flex-wrap: wrap;
 }

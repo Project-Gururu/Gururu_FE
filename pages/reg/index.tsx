@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import ArrowLeft from 'public/images/arrow-left.svg'
+import style from '../../styles/components/Register.module.scss'
+import ArrowLeft from '../../image/icon/arrowl.svg'
 import StepOne from 'components/StepOne'
 import StepThree from 'components/StepThree'
 import StepTwo from 'components/StepTwo'
@@ -19,14 +20,23 @@ const Index: React.FC = () => {
   }
   return (
     <>
-      <div>
-        {count > 1 ? (
-          <ArrowLeft onClick={goback} />
-        ) : (
-          <ArrowLeft onClick={() => Router.push('/mypage')} />
-        )}
-        {obj[count as keyof typeof obj]}
+      {count > 1 ? (
+        <ArrowLeft onClick={goback} />
+      ) : (
+        <ArrowLeft onClick={() => Router.push('/mypage')} />
+      )}
+      <div className={style.Pbar}>
+        <div className={style.step} onClick={() => setCount(1)}>
+          step 1
+        </div>
+        <div className={style.step} onClick={() => setCount(2)}>
+          step 2
+        </div>
+        <div className={style.step} onClick={() => setCount(3)}>
+          step 3
+        </div>
       </div>
+      <div>{obj[count as keyof typeof obj]}</div>
     </>
   )
 }

@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
+import reg from './modules/reg'
 import user from './modules/user'
-import biz from './modules/biz'
 
 export const store = configureStore({
   reducer: {
     user,
-    biz,
+    reg: reg,
   },
 
   middleware: (getDefaultMiddleware) =>
