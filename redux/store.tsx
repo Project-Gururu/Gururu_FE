@@ -5,7 +5,7 @@ import user from './modules/user'
 export const store = configureStore({
   reducer: {
     user,
-    reg: reg
+    reg: reg,
   },
 
   middleware: (getDefaultMiddleware) =>

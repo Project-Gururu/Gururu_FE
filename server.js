@@ -1,3 +1,7 @@
+/**  "dev": "node server.js"
+ *   추가해서 사용하기
+ */
+
 const http = require('http')
 const { parse } = require('url')
 const next = require('next')

@@ -1,0 +1,41 @@
+.addrCard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+
+  > div {
+    flex-grow: 1;
+    gap: 0.2rem;
+    padding-bottom: 0.4rem;
+    border-bottom: $color-brown-100 1px solid;
+
+    > div {
+      display: flex;
+      justify-content: space-between;
+
+      > div {
+        display: flex;
+        gap: 0.6rem;
+        button {
+          border: none;
+          border-radius: 0.8rem;
+          font-size: 0.8rem;
+          background-color: $color-brown-100;
+        }
+      }
+      p {
+        font-weight: 700;
+      }
+    }
+  }
+  p {
+    margin: 0;
+  }
+}
+
+.select {
+  position: absolute;
+  right: 0;
+  border: none;
+}

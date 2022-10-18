@@ -1,10 +1,13 @@
 export interface Address {
   address?: string
   roadAddress?: string
-  latlng?: {
-    lat: number
-    lng: number
-  }
+  latitude?: string
+  longitude?: string
+  memberLocalId?: String
+}
+
+export interface SaveAddress extends Address {
+  memberLocalId: string
 }
 
 export interface Location {

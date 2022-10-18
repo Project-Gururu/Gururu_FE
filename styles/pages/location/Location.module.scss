@@ -1,11 +1,3 @@
-.container {
-  width: 100%;
-  height: 100vh;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-}
-
 .wrap {
   padding: 0 1.2rem;
 }
@@ -24,7 +16,7 @@
   flex-direction: column;
   gap: 0.6rem;
 
-  button {
+  .saveBtn {
     display: flex;
     align-items: center;
     justify-content: center;

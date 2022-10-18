@@ -14,3 +14,9 @@
   align-items: center;
   flex-direction: $direction;
 }
+
+@mixin newline() {
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

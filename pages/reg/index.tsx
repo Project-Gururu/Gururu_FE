@@ -1,10 +1,10 @@
-import React, {useState} from "react"
+import React, { useState } from 'react'
 import style from '../../styles/components/Register.module.scss'
 import ArrowLeft from '../../image/icon/arrowl.svg'
-import StepOne from "components/StepOne"
-import StepThree from "components/StepThree"
-import StepTwo from "components/StepTwo"
-import Router from "next/router"
+import StepOne from 'components/StepOne'
+import StepThree from 'components/StepThree'
+import StepTwo from 'components/StepTwo'
+import Router from 'next/router'
 
 const Index: React.FC = () => {
   let [count, setCount] = useState(1)
@@ -17,24 +17,28 @@ const Index: React.FC = () => {
 
   const goback = () => {
     setCount(count - 1)
-}
-    return (
-        <>
-        {count > 1 ?
-        <ArrowLeft onClick={goback}/>
-        :
-        <ArrowLeft onClick={() => Router.push("/mypage")}/>
-        }
-        <div className={style.Pbar}>
-            <div className={style.step} onClick={() => setCount(1)}>step 1</div>
-            <div className={style.step} onClick={() => setCount(2)}>step 2</div>
-            <div className={style.step} onClick={() => setCount(3)}>step 3</div>
+  }
+  return (
+    <>
+      {count > 1 ? (
+        <ArrowLeft onClick={goback} />
+      ) : (
+        <ArrowLeft onClick={() => Router.push('/mypage')} />
+      )}
+      <div className={style.Pbar}>
+        <div className={style.step} onClick={() => setCount(1)}>
+          step 1
         </div>
-        <div>
-            {obj[count as keyof typeof obj]}
+        <div className={style.step} onClick={() => setCount(2)}>
+          step 2
         </div>
-        </>
-    )
+        <div className={style.step} onClick={() => setCount(3)}>
+          step 3
+        </div>
+      </div>
+      <div>{obj[count as keyof typeof obj]}</div>
+    </>
+  )
 }
 
 export default Index

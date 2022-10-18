@@ -5,63 +5,61 @@ export const instance = axios.create({
   withCredentials: true,
 })
 
-// let isRefreshing = false
-// let refreshSubscribers: any[] = []
+let isRefreshing = false
+let refreshSubscribers: any[] = []
 
-// const addRefreshSubscriber = (callback: any) => {
-//   refreshSubscribers.push(callback)
-// }
+const addRefreshSubscriber = (callback: any) => {
+  refreshSubscribers.push(callback)
+}
 
-// instance.interceptors.response.use(
-//   (response) => {
-//     return response
-//   },
-//   async (error) => {
-//     if (axios.isAxiosError(error)) {
-//       if (error.response && error.response.status !== 401) {
-//         return new Promise((_, reject) => {
-//           reject(error)
-//         })
-//       }
+instance.interceptors.response.use(
+  (response) => {
+    return response
+  },
+  async (error) => {
+    if (axios.isAxiosError(error)) {
+      /** CORS 발생 */
+      //   if (error.response?.status === 0) return (window.location.href = '/')
 
-//       const originalRequest = error.config
+      if (error.response?.status) {
+        console.log('실패?', error.response.status)
+        // return new Promise((_, reject) => {
+        //   reject(error)
+        // })
+      }
 
-//       if (originalRequest.url === '/user/refresh') {
-//         console.log('...')
-//         localStorage.clear()
-//         sessionStorage.clear()
-//         persistor.purge()
-//         window.location.href = '/login'
-//         return
-//       }
+      // const originalRequest = error.config
+      // console.log(originalRequest.url)
+      // if (originalRequest.url === '/auth/reissue') {
+      //   window.location.href = '/'
+      //   return
+      // }
 
-//       const retryOriginalRequest = new Promise((resolve) => {
-//         addRefreshSubscriber((accessToken) => {
-//           if (originalRequest.headers) {
-//             originalRequest.headers.Authorization = 'BEARER ' + accessToken
-//             resolve(instance(originalRequest))
-//           }
-//         })
-//       })
+      // const retryOriginalRequest = new Promise((resolve) => {
+      //   addRefreshSubscriber(() => {
+      //     // if (originalRequest.headers) {
+      //     //   originalRequest.headers.Authorization = 'BEARER ' + accessToken
+      //     resolve(instance(originalRequest))
+      //     // }
+      //   })
+      // })
 
-//       if (!isRefreshing) {
-//         isRefreshing = true
-//         const response = await instance.get('/user/refresh', {
-//           headers: { Authorization: localStorage.getItem('refreshToken') },
-//         })
-//         const newAccessToken = response.headers.authorization
-//         localStorage.setItem('accessToken', `BEARER ${newAccessToken}`)
-//         isRefreshing = false
-//         instance.defaults.headers.common[
-//           'Authorization'
-//         ] = `BEARER ${newAccessToken}`
-//         refreshSubscribers.map((callback) => callback(newAccessToken))
-//         refreshSubscribers = []
-//       }
-//       return retryOriginalRequest //pending
-//     }
-//   },
-// )
+      // if (!isRefreshing) {
+      //   isRefreshing = true
+      //   const response = await instance.post('/auth/reissue')
+      //   // const newAccessToken = response.headers.authorization
+      //   // localStorage.setItem('accessToken', `BEARER ${newAccessToken}`)
+      //   isRefreshing = false
+      //   // instance.defaults.headers.common[
+      //   //   'Authorization'
+      //   // ] = `BEARER ${newAccessToken}`
+      //   refreshSubscribers.map((callback) => callback())
+      //   refreshSubscribers = []
+      // }
+      // return retryOriginalRequest //pending
+    }
+  },
+)
 
 export const userAPI = {
   /** 카카오 로그인 */
@@ -79,5 +77,31 @@ export const userAPI = {
   deleteLocation: (data: { mbId: string; memberLocalId: string }) =>
     instance.delete(
       `/user/v1.0/member/${data.mbId}/local/${data.memberLocalId}`,
+    ),
+
+  /** 회원 위치 수정 */
+  updateLocation: (data: {
+    mbId: string
+    memberLocalId: string
+    addressInfo: any
+  }) =>
+    instance.put(
+      `/user/v1.0/member/${data.mbId}/local/${data.memberLocalId}`,
+      data.addressInfo,
+    ),
+
+  /** 회원 선택 위치 조회 */
+  getchoicedLocation: (mbId: string) =>
+    instance.get(`/user/v1.0/member/${mbId}/localSelect`),
+
+  /** 회원 선택 위치 저장 */
+  setchoicedLocation: (data: {
+    mbId: string
+    memberLocalId: string
+    pastMemberLocalId: string
+  }) =>
+    instance.post(
+      `/user/v1.0/member/${data.mbId}/local/${data.memberLocalId}`,
+      { memberLocalId: data.pastMemberLocalId },
     ),
 }
