@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
-import { api as userApi } from 'redux/modules/user'
+import { api as userApi } from 'redux/modules/userSlice'
 
 import DownIcon from 'public/images/caret-down.svg'
 import NotiIcon from 'public/images/noti.svg'

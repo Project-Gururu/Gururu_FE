@@ -1,5 +1,4 @@
-import React, { lazy } from 'react'
-import dynamic from 'next/dynamic'
+import React, { lazy, Suspense } from 'react'
 
 import NavBar from 'components/common/Navigation/NavBar'
 import Header from 'components/map/MapHeader/MapHeader'
@@ -15,7 +14,9 @@ export default function Map() {
     <Container>
       <Header />
       <section className={s.section}>
-        <KakaoMap />
+        <Suspense>
+          <KakaoMap />
+        </Suspense>
         <BottomSheet />
       </section>
       <NavBar />
