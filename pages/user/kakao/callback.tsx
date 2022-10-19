@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useAppDispatch } from 'redux/hooks'
-import { api as userAction } from 'redux/modules/user'
+import { api as userAction } from 'redux/modules/userSlice'
 
 const Kakao = () => {
   const dispatch = useAppDispatch()

@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import axios from 'axios'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
 import { useMutation } from '@tanstack/react-query'
-import { setAddress } from 'redux/modules/user'
+import { setAddress } from 'redux/modules/userSlice'
 
 import Header from 'components/common/Header/Header'
 import Location from 'components/location/Location/Location'

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 import { useAppDispatch, useAppSelector } from 'redux/hooks'
-import { setAddress as userAction } from 'redux/modules/user'
+import { setAddress as userAction } from 'redux/modules/userSlice'
 
 import Header from 'components/common/Header/Header'
 import Button from 'components/ui/Button/Button'
