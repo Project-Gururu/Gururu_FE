@@ -6,7 +6,7 @@ import React from 'react'
 
 import styles from 'styles/pages/home.module.scss'
 import { siteTitle } from './_document'
-
+ 
 const Home: NextPage = () => {
   const kakaoInit = () => {
     const kakao = (window as any).Kakao
