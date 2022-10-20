@@ -105,3 +105,23 @@ export const userAPI = {
       { memberLocalId: data.pastMemberLocalId },
     ),
 }
+
+export const getApi = (path: string) => {
+  return instance.get(path)
+}
+
+export const postApi = (path: string, data: any) => {
+  return instance.post(path, data)
+}
+
+export const patchApi = (path: string, data: any) => {
+  return instance.patch(path, data)
+}
+
+export const putApi = (path: string, data: any) => {
+  return instance.put(path, data)
+}
+
+export const deleteApi = (path: string) => {
+  return instance.delete(path)
+}
