@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Script from 'next/script'
 import React from 'react'
 
-import styles from 'styles/pages/Home.module.scss'
+import styles from 'styles/pages/home.module.scss'
 import { siteTitle } from './_document'
 
 const Home: NextPage = () => {
