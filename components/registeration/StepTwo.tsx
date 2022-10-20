@@ -32,7 +32,7 @@ const StepTwo: React.FC<CounterProps> = ({ numState: [count, setCount] }) => {
   })
 
   const products = useSelector((state: RootState) => state.reg.menu)
-  const categories = [...new Set(products.map((e) => e.size))]
+  const categories = [...new Set<any>(products.map((e) => e.size))]
   const onChangeHandler = (e: any) => {
     const { name, value } = e.target
     setMenu({ ...menu, [name]: value })

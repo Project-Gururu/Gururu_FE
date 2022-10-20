@@ -31,9 +31,11 @@ const StepThree: React.FC<CounterProps> = ({ numState: [count, setCount] }) => {
     setStylist({ ...initialState })
   }
   const [image, setImage] = useState()
-  const hidden = React.useRef(null)
+  const hidden = React.useRef<HTMLInputElement>(null)
   const handleClick = () => {
-    hidden.current.click()
+    if (hidden.current) {
+      hidden.current.click()
+    }
   }
   const selectFile = (e: any) => {
     setImage(e.target.files[0])
