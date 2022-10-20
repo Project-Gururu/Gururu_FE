@@ -65,11 +65,13 @@ const Mypet: React.FC = () => {
     setNum(0)
   }
 
-  const hidden = React.useRef(null)
+  const hidden = React.useRef<HTMLInputElement>(null)
   const handleClick = () => {
-    hidden.current.click()
+    if (hidden.current) {
+      hidden.current.click()
+    }
   }
-  const selectFile = (e) => {
+  const selectFile = (e:any) => {
     const _file = e.target.files[0]
     setImage(e.target.files[0])
   }
