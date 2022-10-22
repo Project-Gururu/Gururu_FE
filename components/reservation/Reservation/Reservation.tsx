@@ -2,6 +2,7 @@ import React from 'react'
 
 import ArrowIcon from 'public/images/arrow-right.svg'
 import s from './Reservation.module.scss'
+import Button from 'components/ui/Button/Button'
 
 export default function Reservation() {
   const [focusBtn, setFocusBtn] = React.useState<number>(0)
@@ -46,7 +47,9 @@ export default function Reservation() {
                   <div>강아지사진</div>
                 </div>
               </div>
-              <button>후기 작성</button>
+              <Button variant="naked" width="100%">
+                후기 작성
+              </Button>
             </div>
           </li>
         </ul>

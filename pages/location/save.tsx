@@ -160,7 +160,11 @@ export default function Save() {
                 onChange={onChange}
               />
             )}
-            <Button disabled={choice === 2 ? !value : false} onClick={onSubmit}>
+            <Button
+              disabled={choice === 2 ? !value : false}
+              onClick={onSubmit}
+              width="100%"
+            >
               {prevPath === '/location' ? '수정' : '저장'}
             </Button>
           </>

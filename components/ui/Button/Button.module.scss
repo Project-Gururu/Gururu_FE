@@ -1,14 +1,21 @@
-.button {
+.Button {
   @include center;
-  width: 100%;
   margin: auto auto 0;
   background-color: $color-brown-500;
   border: none;
   border-radius: 0.4rem;
-  padding: 0.6rem;
+  padding: 0.6rem 0;
   font-size: 1.1rem;
   color: white;
   font-weight: 600;
+
+  &.naked {
+    padding: 0.4rem 0;
+    background-color: white;
+    border: 1px solid $color-brown-500;
+    color: $color-brown-500;
+    font-size: 1rem;
+  }
 
   &:disabled {
     background-color: $color-gray-100;

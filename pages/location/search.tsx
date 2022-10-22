@@ -186,7 +186,7 @@ export default function Search() {
             {click ? ' 도로명으로 보기' : ' 지번으로 보기'}
           </button>
         </div>
-        <Button onClick={onSubmit} disabled={!address.roadAddress}>
+        <Button onClick={onSubmit} disabled={!address.roadAddress} width="100%">
           {address.roadAddress
             ? router.query.prevPath === '/location/save'
               ? '이 위치로 주소 저장'
