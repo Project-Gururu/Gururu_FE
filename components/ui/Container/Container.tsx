@@ -1,8 +1,9 @@
+import { ReactNode } from 'react'
 import styles from './Container.module.scss'
 
 interface ContainerProps {
   className?: string
-  children?: any
+  children?: ReactNode
 }
 
 export default function Container({ children }: ContainerProps) {

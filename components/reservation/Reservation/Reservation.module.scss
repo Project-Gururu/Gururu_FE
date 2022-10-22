@@ -1,0 +1,92 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 0 1.2rem;
+}
+
+.tab {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  margin-top: 1rem;
+
+  .focus {
+    background-color: $color-brown-500;
+    color: white;
+  }
+
+  & button {
+    @include center(column);
+    & span {
+      font-size: 1.2rem;
+    }
+    gap: 0.1rem;
+    background-color: white;
+    border: none;
+    border-radius: 0.3rem;
+    padding: 1rem 0;
+    font-weight: 600;
+    font-size: 0.8rem;
+    box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.itemList {
+  flex-grow: 1;
+  margin: 1rem 0 0;
+}
+
+.itemContainer {
+  & p {
+    margin: 0;
+  }
+  & p:nth-of-type(1) {
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+  & p:nth-of-type(2) {
+    color: $color-gray-400;
+    font-size: 0.9rem;
+    font-weight: 300;
+  }
+  & p:nth-of-type(3) {
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  .itemDate {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid $color-brown-100;
+    margin-bottom: 0.6rem;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: $color-gray-400;
+    & svg {
+      position: absolute;
+      right: -14px;
+    }
+  }
+
+  .itemWrap {
+    display: flex;
+    .itemLeft {
+      flex-grow: 1;
+    }
+  }
+
+  & button {
+    width: 100%;
+    padding: 0.4rem 0;
+    margin-top: 0.6rem;
+    font-weight: 600;
+
+    background-color: white;
+    border-radius: 0.3rem;
+    border: 1px solid $color-brown-500;
+    color: $color-brown-500;
+  }
+}

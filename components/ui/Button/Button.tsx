@@ -3,7 +3,7 @@ import s from './Button.module.scss'
 interface ButtonProps {
   children: string
   disabled?: boolean
-  onClick: () => void
+  onClick?: () => void
 }
 
 export default function Button({
