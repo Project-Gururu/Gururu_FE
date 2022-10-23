@@ -15,6 +15,7 @@ interface InitialType {
     mbId: string
     nickname: string
     profileImage: string
+    storeId: string
   }
   location: AddressType
 }
@@ -24,6 +25,7 @@ const initialState: InitialType = {
     mbId: '',
     nickname: '',
     profileImage: '',
+    storeId:''
   },
   location: {
     address: '',
@@ -90,6 +92,7 @@ export const userSlice = createSlice({
       state.userInfo.mbId = action.payload.mbId
       state.userInfo.nickname = action.payload.nickname
       state.userInfo.profileImage = action.payload.profileImage
+      state.userInfo.storeId = action.payload.store[0].id
     }),
       builder.addCase(setFirstLocationApi.fulfilled, (state, action) => {
         state.location = action.payload as AddressType

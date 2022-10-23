@@ -1,10 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { getApi, postApi } from 'redux/api'
+import { deleteApi, getApi, postApi, putApi } from 'redux/api'
+import Router from 'next/router'
 
 export const regBiz: any = createAsyncThunk('reg/regBiz', async (data) => {
   try {
-    console.log(data)
-    await postApi('/admin/v1.0/store', data)
+    let mid = data.mbid
+    delete data.mbid
+    await postApi(`/admin/v1.0/store/${mid}`, data)
   } catch (err) {}
 })
 
@@ -12,8 +14,8 @@ export const getBizInfo: any = createAsyncThunk(
   'reg/getBizInfo',
   async (id) => {
     try {
-      const res = await getApi(`/admin/v1.0/store/${id}}`)
-      console.log(res)
+      const res = await getApi(`/admin/v1.0/store/${id}`)
+      return res.data
     } catch (err) {}
   },
 )
@@ -21,30 +23,50 @@ export const getBizInfo: any = createAsyncThunk(
 export const updateBiz: any = createAsyncThunk(
   'reg/updateBiz',
   async (data) => {
-    console.log(data)
+    let sId = data.storeId
+    delete data.storeId
     try {
+      await putApi(`/admin/v1.0/store/${sId}`, data)
     } catch (err) {}
   },
 )
 
-export const regMenu: any = createAsyncThunk('reg/regMenu', async (data) => {
+export const getMenus: any = createAsyncThunk('reg/getMenus', async (data) => {
   try {
-    console.log(data)
-    return data
+    const res = await getApi(`/admin/v1.0/store/${data}/product`)
+    return res.data
   } catch (err) {}
 })
 
-export const setEdit: any = createAsyncThunk('reg/setEdit', async (data) => {
-  try {
+export const regMenu: any = createAsyncThunk('reg/regMenu', async (data) => {
+    const sId = data.storeRegisterId
+    delete data.storeRegisterId
     console.log(data)
+  try {
+    await postApi(`/admin/v1.0/store/${sId}/product`, data)
     return data
   } catch (err) {}
 })
 
 export const editMenu: any = createAsyncThunk('reg/editMenu', async (data) => {
   try {
-    console.log(data)
-    return data
+    const sId = data.storeRegisterId
+    const pId = data.productId
+    const updated = data
+    delete data.productId
+    delete data.storeRegisterId
+    await putApi(`/admin/v1.0/store/${sId}/product/${pId}`, data)
+    alert("수정 완료되었습니다!")
+    return updated
+  } catch (err) {}
+})
+
+export const delMenu: any = createAsyncThunk('reg/editMenu', async (data) => {
+    let idx = data.idx
+    delete data.idx
+  try {
+    await deleteApi(`/admin/v1.0/store/${data.storeRegisterId}/product/${data.productId}`)
+    return idx
   } catch (err) {}
 })
 
@@ -89,7 +111,7 @@ interface RepsitoriesState {
 }
 
 const initialState: RepsitoriesState = {
-  storeData: [0],
+  storeData: [],
   menu: [],
   stylists: [],
   myPet: [],
@@ -103,17 +125,23 @@ export const regSlice = createSlice({
     [regStylist.fulfilled]: (state, action) => {
       state.stylists.push(action.payload)
     },
+    [getBizInfo.fulfilled]: (state, action) => {
+      state.storeData = [action.payload]
+    },
     [regMenu.fulfilled]: (state, action) => {
       state.menu.push(action.payload)
     },
-    [setEdit.fulfilled]: (state, action) => {
-      state.menu[action.payload].edit = true
+    [getMenus.fulfilled]: (state, action) => {
+      state.menu = action.payload
     },
     [regMyPet.fulfilled]: (state, action) => {
       state.myPet.push(action.payload)
     },
     [delMyPet.fulfilled]: (state, action) => {
       state.myPet.splice(action.payload, 1)
+    },
+    [delMenu.fulfilled]: (state, action) => {
+      state.menu.splice(action.payload, 1)
     },
     [editMyPet.fulfilled]: (state, action) => {
       let index = action.payload.index

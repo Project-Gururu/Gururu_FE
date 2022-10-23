@@ -3,7 +3,7 @@ import DaumPostcode from "react-daum-postcode";
 import { useSelector, useDispatch } from "react-redux";
 import Modal from "react-modal";
 import style from '../../styles/components/Register.module.scss'
-import { regBiz, updateBiz } from "redux/modules/reg";
+import { getBizInfo, regBiz, updateBiz } from "redux/modules/reg";
 import { RootState } from "redux/store";
 import Edit from '../../public/images/icon-edit.svg';
 import _ from 'lodash';
@@ -14,26 +14,27 @@ interface CounterProps {
 
 const StepOne: React.FC<CounterProps> = ({ numState: [count, setCount] }) => {
     const dispatch = useDispatch();
-    const storeInfo = useSelector((state:RootState) => state.reg?.storeData)
+    const storeInfo = useSelector((state:RootState) => state.reg.storeData)
+    const userInfo = useSelector((state:RootState) => state.user.userInfo)
     const [editTime, setEditTime] = useState<boolean>(false)
     const [isOpen, setIsOpen] = useState<boolean>(false); //추가
     const [image, setImage] = useState("이미지");
-    const initialState = {
-        storeName: "",
-        storeDesc: "",
-        phoneNumber: "",
-        homepage: "",
-        companyRegistrationNumber: "",
-        storeHoliday: "",
-        storeNewAddrs: "",
-        storeOldAddrs: "",
-        storeDetailedAddrs: "",
-        storeAddrsDesc: "",
-        openTime: "",
-        closeTime: "",
-        x: "",
-        y: "",
-    }
+    // const initialState = {
+    //     storeName: "",
+    //     storeDesc: "",
+    //     phoneNumber: "",
+    //     homepage: "",
+    //     companyRegistrationNumber: "",
+    //     storeHoliday: "",
+    //     storeNewAddrs: "",
+    //     storeOldAddrs: "",
+    //     storeDetailedAddrs: "",
+    //     storeAddrsDesc: "",
+    //     openTime: "",
+    //     closeTime: "",
+    //     x: "",
+    //     y: "",
+    // }
     let [bizInfo, setBizInfo] = useState({
         storeName: "",
         storeDesc: "",
@@ -141,135 +142,141 @@ const StepOne: React.FC<CounterProps> = ({ numState: [count, setCount] }) => {
 
     const goNext = () => {
       let data = {
+        mbid: userInfo.mbId,
         storeImg: image,
         ...bizInfo
       }
       dispatch(regBiz(data))
-      setBizInfo({...initialState})
+      // setBizInfo({...initialState})
         // setCount(count + 1);
     }
 
-    console.log(bizInfo)
+
+    useEffect(() => {
+      dispatch(getBizInfo(userInfo.storeId))
+      .then(setBizInfo({...storeInfo[0]}))
+    }, [])
 
     const update = () => {
-      let updateInfo = _.pickBy(bizInfo , (value: string | number) => {return !_.isEmpty(value)})
-      dispatch(updateBiz(updateInfo))
+      let update = {
+        storeId: userInfo.storeId,
+        ...bizInfo
+      }
+      dispatch(updateBiz(update))
     }
 
-    // if (storeInfo.length > 0) {
-    //   return (
-    //     <>
-    //     <div className={style.Grid}>
-    //         <div
-    //           className={style.Photo}
-    //           onClick={handleClick}
-    //         >
-    //         사진
-    //         </div>
-    //         <input
-    //           type='file'
-    //           ref={hidden}
-    //           style={{ display: "none"}}
-    //           onChange={selectFile}
-    //         />
-    //         <input
-    //           className={style.Input}
-    //           name="storeName"
-    //           placeholder={storeInfo[0].storeName}
-    //           onChange={onChangeHandler}
-    //         />
-    //         <input
-    //           className={style.Input}
-    //           name="storeDesc"
-    //           placeholder={storeInfo[0].storeDesc}
-    //           onChange={onChangeHandler}
-    //         />
-    //         <input
-    //           className={style.Input}
-    //           name="storeHoliday"
-    //           placeholder={storeInfo[0].storeHoliday}
-    //           onChange={onChangeHandler}
-    //         />
-    //         {editTime ?
-    //         <div className={style.Time}>
-    //           오픈시간
-    //             <select onChange={setTime}>
-    //               {selectList.map((item, idx)=> (
-    //                 <option value={item.value} key={idx}>
-    //                   {item.value}시
-    //                 </option>
-    //               ))}
-    //             </select>~
-    //           <select placeholder={storeInfo[0].closeTime} onChange={setCloseTime}>
-    //               {selectList.map((item, idx)=> (
-    //                 <option value={item.value} key={idx}>
-    //                   {item.value}시
-    //                 </option>
-    //               ))}
-    //             </select>
-    //         </div>
-    //         :
-    //         <div className={style.Time}>
-    //           <div>오픈시간 {storeInfo[0].openTime}시~{storeInfo[0].closeTime}시</div>
-    //           <Edit
-    //             style={{marginLeft: "auto"}}
-    //             onClick={() => setEditTime(true)}
-    //           />
-    //         </div>
-    //         }
-    //         <input
-    //           className={style.Input}
-    //           name="phoneNumber"
-    //           placeholder={storeInfo[0].phoneNumber}
-    //           onChange={onChangeHandler}
-    //         />
-    //         <input
-    //           className={style.Input}
-    //           name="homepage"
-    //           placeholder={storeInfo[0].homepage}
-    //           onChange={onChangeHandler}
-    //         />
-    //         <input
-    //           className={style.Input}
-    //           name="storeNewAddrs"
-    //           placeholder={storeInfo[0].storeNewAddrs}
-    //           onClick={toggle}
-    //           value={bizInfo.storeNewAddrs}
-    //           readOnly
-    //         />
-    //         <input
-    //           className={style.Input}
-    //           name="storeOldAddrs"
-    //           placeholder={storeInfo[0].storeOldAddrs}
-    //           value={bizInfo.storeOldAddrs}
-    //           readOnly
-    //         />
-    //         <input
-    //           className={style.Input}
-    //           name="storeDetailedAddrs"
-    //           placeholder={storeInfo[0].storeDetailedAddrs}
-    //           onChange={onChangeHandler}
-    //         />
-    //         <input
-    //           className={style.Input}
-    //           name="storeAddrsDesc"
-    //           placeholder={storeInfo[0].storeAddrsDesc}
-    //           onChange={onChangeHandler}
-    //         />
-    //         <input
-    //           className={style.Input}
-    //           name="companyRegistrationNumber"
-    //           placeholder={storeInfo[0].companyRegistrationNumber}
-    //           onChange={onChangeHandler}
-    //         />
-    //         <Modal isOpen={isOpen} ariaHideApp={false} style={customStyles}>
-    //             <DaumPostcode onComplete={completeHandler}/>
-    //         </Modal>
-    //         <button className={style.Button} onClick={update}>수정하기</button>
-    //     </div>
-    //     </>
-    //   )
-    // }
+    if (storeInfo.length > 0) {
+      return (
+        <>
+        <div className={style.Grid}>
+            <div
+              className={style.Photo}
+              onClick={handleClick}
+            >
+            사진
+            </div>
+            <input
+              type='file'
+              ref={hidden}
+              style={{ display: "none"}}
+              onChange={selectFile}
+            />
+            <input
+              className={style.Input}
+              name="storeName"
+              value={bizInfo.storeName}
+              onChange={onChangeHandler}
+            />
+            <input
+              className={style.Input}
+              name="storeDesc"
+              value={bizInfo.storeDesc}
+              onChange={onChangeHandler}
+            />
+            <input
+              className={style.Input}
+              name="storeHoliday"
+              value={bizInfo.storeHoliday}
+              onChange={onChangeHandler}
+            />
+            {editTime ?
+            <div className={style.Time}>
+              오픈시간
+                <select onChange={setTime}>
+                  {selectList.map((item, idx)=> (
+                    <option value={item.value} key={idx}>
+                      {item.value}시
+                    </option>
+                  ))}
+                </select>~
+              <select placeholder={bizInfo.closeTime} onChange={setCloseTime}>
+                  {selectList.map((item, idx)=> (
+                    <option value={item.value} key={idx}>
+                      {item.value}시
+                    </option>
+                  ))}
+                </select>
+            </div>
+            :
+            <div className={style.Time}>
+              <div>오픈시간 {storeInfo[0].openTime}시~{storeInfo[0].closeTime}시</div>
+              <Edit
+                style={{marginLeft: "auto"}}
+                onClick={() => setEditTime(true)}
+              />
+            </div>
+            }
+            <input
+              className={style.Input}
+              name="phoneNumber"
+              value={bizInfo.phoneNumber}
+              onChange={onChangeHandler}
+            />
+            <input
+              className={style.Input}
+              name="homepage"
+              value={bizInfo.homepage}
+              onChange={onChangeHandler}
+            />
+            <input
+              className={style.Input}
+              name="storeNewAddrs"
+              onClick={toggle}
+              value={bizInfo.storeNewAddrs}
+              readOnly
+            />
+            <input
+              className={style.Input}
+              name="storeOldAddrs"
+              value={bizInfo.storeOldAddrs}
+              readOnly
+            />
+            <input
+              className={style.Input}
+              name="storeDetailedAddrs"
+              value={bizInfo.storeDetailedAddrs}
+              onChange={onChangeHandler}
+            />
+            <input
+              className={style.Input}
+              name="storeAddrsDesc"
+              value={bizInfo.storeAddrsDesc}
+              onChange={onChangeHandler}
+            />
+            <input
+              className={style.Input}
+              name="companyRegistrationNumber"
+              value={bizInfo.companyRegistrationNumber}
+              onChange={onChangeHandler}
+            />
+            <Modal isOpen={isOpen} ariaHideApp={false} style={customStyles}>
+                <DaumPostcode onComplete={completeHandler}/>
+            </Modal>
+            <button className={style.Button} onClick={update}>수정하기</button>
+        </div>
+        </>
+      )
+    }
 
     return (
         <>
