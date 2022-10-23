@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { delMenu, editMenu, getMenus, regMenu, setEdit } from 'redux/modules/reg'
+import { delMenu, editMenu, getMenus, regMenu } from 'redux/modules/reg'
 import { RootState } from 'redux/store'
 import style from '../../styles/components/Register.module.scss'
 import Edit from '../../public/images/icon-edit.svg'
@@ -61,7 +61,7 @@ const StepTwo: React.FC<CounterProps> = ({ numState: [count, setCount] }) => {
     setCount(count + 1)
   }
   const Save = () => {
-    dispatch(regMenu(menu))
+    dispatch(regMenu(menu, products))
     setMenu({ ...initialState })
     setNum(0)
   }

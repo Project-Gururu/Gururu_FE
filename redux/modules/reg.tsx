@@ -2,7 +2,11 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { deleteApi, getApi, postApi, putApi } from 'redux/api'
 import Router from 'next/router'
 
-export const regBiz: any = createAsyncThunk('reg/regBiz', async (data) => {
+type obj = {
+  [key: string]: string
+}
+
+export const regBiz: any = createAsyncThunk('reg/regBiz', async (data: obj) => {
   try {
     let mid = data.mbid
     delete data.mbid
@@ -22,7 +26,7 @@ export const getBizInfo: any = createAsyncThunk(
 
 export const updateBiz: any = createAsyncThunk(
   'reg/updateBiz',
-  async (data) => {
+  async (data: obj) => {
     let sId = data.storeId
     delete data.storeId
     try {
@@ -38,17 +42,17 @@ export const getMenus: any = createAsyncThunk('reg/getMenus', async (data) => {
   } catch (err) {}
 })
 
-export const regMenu: any = createAsyncThunk('reg/regMenu', async (data) => {
+export const regMenu: any = createAsyncThunk('reg/regMenu', async (data: obj) => {
     const sId = data.storeRegisterId
     delete data.storeRegisterId
     console.log(data)
   try {
-    await postApi(`/admin/v1.0/store/${sId}/product`, data)
+    // await postApi(`/admin/v1.0/store/${sId}/product`, data)
     return data
   } catch (err) {}
 })
 
-export const editMenu: any = createAsyncThunk('reg/editMenu', async (data) => {
+export const editMenu: any = createAsyncThunk('reg/editMenu', async (data: obj) => {
   try {
     const sId = data.storeRegisterId
     const pId = data.productId
@@ -61,7 +65,7 @@ export const editMenu: any = createAsyncThunk('reg/editMenu', async (data) => {
   } catch (err) {}
 })
 
-export const delMenu: any = createAsyncThunk('reg/editMenu', async (data) => {
+export const delMenu: any = createAsyncThunk('reg/editMenu', async (data: obj) => {
     let idx = data.idx
     delete data.idx
   try {
