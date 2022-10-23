@@ -71,7 +71,7 @@ const Mypet: React.FC = () => {
       hidden.current.click()
     }
   }
-  const selectFile = (e:any) => {
+  const selectFile = (e: any) => {
     const _file = e.target.files[0]
     setImage(e.target.files[0])
   }

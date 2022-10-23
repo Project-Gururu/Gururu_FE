@@ -25,7 +25,7 @@ const initialState: InitialType = {
     mbId: '',
     nickname: '',
     profileImage: '',
-    storeId:''
+    storeId: '',
   },
   location: {
     address: '',

@@ -6,7 +6,7 @@ import style from '../../styles/components/Register.module.scss'
 import Edit from '../../public/images/icon-edit.svg'
 import Del from '../../public/images/icon-delete.svg'
 import { useAppSelector } from 'redux/hooks'
-import Modal from 'react-modal';
+import Modal from 'react-modal'
 interface CounterProps {
   numState: [number, Dispatch<SetStateAction<number>>]
 }
@@ -14,7 +14,7 @@ interface CounterProps {
 const StepTwo: React.FC<CounterProps> = ({ numState: [count, setCount] }) => {
   const dispatch = useDispatch()
   let [num, setNum] = useState(0)
-  const [modalIsOpen, setIsOpen] = useState(false);
+  const [modalIsOpen, setIsOpen] = useState(false)
   const storeId = useAppSelector((state) => state.user.userInfo.storeId)
   const initialState = {
     storeRegisterId: storeId,
@@ -31,31 +31,31 @@ const StepTwo: React.FC<CounterProps> = ({ numState: [count, setCount] }) => {
     amount: '',
   })
   const customStyles = {
-      overlay: {
-          backgroundColor: "rgba(0,0,0,0.5)",
-      },
-      content: {
-          left: "0",
-          margin: "auto",
-          width: "500px",
-          height: "600px",
-          padding: "0",
-          overflow: "hidden",
-      },
-  };
+    overlay: {
+      backgroundColor: 'rgba(0,0,0,0.5)',
+    },
+    content: {
+      left: '0',
+      margin: 'auto',
+      width: '500px',
+      height: '600px',
+      padding: '0',
+      overflow: 'hidden',
+    },
+  }
   const products = useSelector((state: RootState) => state.reg.menu)
   const categories = [...new Set<any>(products.map((e) => e.sizeName))]
   const onChangeHandler = (e: any) => {
     const { name, value } = e.target
     setMenu({ ...menu, [name]: value })
   }
-  const openModal = (e: any) =>{
-    setMenu({...e})
-    setIsOpen(true);
+  const openModal = (e: any) => {
+    setMenu({ ...e })
+    setIsOpen(true)
   }
-  const closeModal = () =>{
+  const closeModal = () => {
     dispatch(getMenus(storeId))
-    setIsOpen(false);
+    setIsOpen(false)
   }
   const goNext = () => {
     setCount(count + 1)
@@ -73,7 +73,7 @@ const StepTwo: React.FC<CounterProps> = ({ numState: [count, setCount] }) => {
   const deleteMenu = (idx: number, info: object) => {
     let data = {
       ...info,
-      idx: idx
+      idx: idx,
     }
     dispatch(delMenu(data))
   }
@@ -139,13 +139,13 @@ const StepTwo: React.FC<CounterProps> = ({ numState: [count, setCount] }) => {
                       return (
                         <div key={idx}>
                           <div className={style.Category}>
-                            <Del onClick={() => deleteMenu(idx, e)}/>
-                            <Edit onClick={()=> openModal(e)}/>
-                              <>
-                                <div>{e.beautyName}</div>
-                                <div>{e.beautyDesc}</div>
-                                <div>{e.amount} 원</div>
-                              </>
+                            <Del onClick={() => deleteMenu(idx, e)} />
+                            <Edit onClick={() => openModal(e)} />
+                            <>
+                              <div>{e.beautyName}</div>
+                              <div>{e.beautyDesc}</div>
+                              <div>{e.amount} 원</div>
+                            </>
                           </div>
                         </div>
                       )
@@ -172,13 +172,25 @@ const StepTwo: React.FC<CounterProps> = ({ numState: [count, setCount] }) => {
       >
         <button onClick={closeModal}>닫기</button>
         <div>사이즈</div>
-        <input name='sizeName' value={menu.sizeName} onChange={onChangeHandler}/>
+        <input
+          name="sizeName"
+          value={menu.sizeName}
+          onChange={onChangeHandler}
+        />
         <div>미용 이름</div>
-        <input name='beautyName' value={menu.beautyName} onChange={onChangeHandler}/>
+        <input
+          name="beautyName"
+          value={menu.beautyName}
+          onChange={onChangeHandler}
+        />
         <div>미용 소개</div>
-        <input name='beautyDesc' value={menu.beautyDesc} onChange={onChangeHandler}/>
+        <input
+          name="beautyDesc"
+          value={menu.beautyDesc}
+          onChange={onChangeHandler}
+        />
         <div>가격</div>
-        <input name='amount' value={menu.amount} onChange={onChangeHandler}/>
+        <input name="amount" value={menu.amount} onChange={onChangeHandler} />
         <button onClick={saveEdit}>수정</button>
       </Modal>
     </>

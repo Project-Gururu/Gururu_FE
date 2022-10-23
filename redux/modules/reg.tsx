@@ -42,37 +42,48 @@ export const getMenus: any = createAsyncThunk('reg/getMenus', async (data) => {
   } catch (err) {}
 })
 
-export const regMenu: any = createAsyncThunk('reg/regMenu', async (data: obj) => {
+export const regMenu: any = createAsyncThunk(
+  'reg/regMenu',
+  async (data: obj) => {
     const sId = data.storeRegisterId
     delete data.storeRegisterId
     console.log(data)
-  try {
-    // await postApi(`/admin/v1.0/store/${sId}/product`, data)
-    return data
-  } catch (err) {}
-})
+    try {
+      // await postApi(`/admin/v1.0/store/${sId}/product`, data)
+      return data
+    } catch (err) {}
+  },
+)
 
-export const editMenu: any = createAsyncThunk('reg/editMenu', async (data: obj) => {
-  try {
-    const sId = data.storeRegisterId
-    const pId = data.productId
-    const updated = data
-    delete data.productId
-    delete data.storeRegisterId
-    await putApi(`/admin/v1.0/store/${sId}/product/${pId}`, data)
-    alert("수정 완료되었습니다!")
-    return updated
-  } catch (err) {}
-})
+export const editMenu: any = createAsyncThunk(
+  'reg/editMenu',
+  async (data: obj) => {
+    try {
+      const sId = data.storeRegisterId
+      const pId = data.productId
+      const updated = data
+      delete data.productId
+      delete data.storeRegisterId
+      await putApi(`/admin/v1.0/store/${sId}/product/${pId}`, data)
+      alert('수정 완료되었습니다!')
+      return updated
+    } catch (err) {}
+  },
+)
 
-export const delMenu: any = createAsyncThunk('reg/editMenu', async (data: obj) => {
+export const delMenu: any = createAsyncThunk(
+  'reg/editMenu',
+  async (data: obj) => {
     let idx = data.idx
     delete data.idx
-  try {
-    await deleteApi(`/admin/v1.0/store/${data.storeRegisterId}/product/${data.productId}`)
-    return idx
-  } catch (err) {}
-})
+    try {
+      await deleteApi(
+        `/admin/v1.0/store/${data.storeRegisterId}/product/${data.productId}`,
+      )
+      return idx
+    } catch (err) {}
+  },
+)
 
 export const regStylist: any = createAsyncThunk(
   'reg/regStylist',
