@@ -1,0 +1,47 @@
+.itemList {
+  flex-grow: 1;
+  margin: 1rem 0 0;
+}
+
+.itemContainer {
+  & p {
+    margin: 0;
+  }
+  & p:nth-of-type(1) {
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+  & p:nth-of-type(2) {
+    color: $color-gray-400;
+    font-size: 0.9rem;
+    font-weight: 300;
+  }
+  & p:nth-of-type(3) {
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  .itemDate {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid $color-brown-100;
+    margin-bottom: 0.6rem;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: $color-gray-400;
+    & svg {
+      position: absolute;
+      right: -14px;
+    }
+  }
+
+  .itemWrap {
+    display: flex;
+    margin-bottom: 0.4rem;
+    .itemLeft {
+      flex-grow: 1;
+    }
+  }
+}
