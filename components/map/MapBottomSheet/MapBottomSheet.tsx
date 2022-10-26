@@ -1,15 +1,21 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { BottomSheet, BottomSheetRef } from 'react-spring-bottom-sheet'
 
 import ListIcon from 'public/images/list.svg'
 import MapIcon from 'public/images/map.svg'
 
 import styles from './BottomSheet.module.scss'
+import { useQuery } from '@tanstack/react-query'
+import { getApi } from 'redux/api'
+import MapStore from '../MapStore/MapStore'
 
 export default function BottomSheetModal() {
   const [open, setOpen] = React.useState<boolean>(true)
   const $sheetRef = React.useRef<BottomSheetRef>(null)
-
+  // const { data } = useQuery(['map'], () => {
+  //   return getApi(`admin/v1.0/store/5b5cd7b3-a77a-4c1b-aa97-81983a150e30`)
+  // })
+  // console.log(data)
   return (
     <div className={styles.container}>
       <button
@@ -41,12 +47,9 @@ export default function BottomSheetModal() {
         snapPoints={({ maxHeight }) => [maxHeight / 2, maxHeight - 44]}
         header={<div className={styles.header}></div>}
       >
-        <h2 className={styles.header}>가게 정보</h2>
-        <p>
-          its possible to use the Bottom Sheet as an height adjustable
-          sidebar/panel.
-        </p>
-        <p>You can combine this wito fine-tune the behavior you want.</p>
+        <Suspense fallback={<div>스켈레톤</div>}>
+          <MapStore />
+        </Suspense>
       </BottomSheet>
     </div>
   )
