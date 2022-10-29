@@ -14,7 +14,7 @@ interface CounterProps {
 
 const StepOne: React.FC<CounterProps> = ({ numState: [count, setCount] }) => {
   const dispatch = useDispatch()
-  const storeInfo = useSelector((state: RootState) => state.reg.storeData)
+  const storeInfo = useSelector((state: RootState) => state.reg.storeData[0])
   const userInfo = useSelector((state: RootState) => state.user.userInfo)
   const [editTime, setEditTime] = useState<boolean>(false)
   const [isOpen, setIsOpen] = useState<boolean>(false) //추가
@@ -122,7 +122,7 @@ const StepOne: React.FC<CounterProps> = ({ numState: [count, setCount] }) => {
         )
       }
     })
-  }, [bizInfo?.storeNewAddrs])
+  }, [completeHandler])
 
   const selectList = [
     // { value: 1},
@@ -163,7 +163,8 @@ const StepOne: React.FC<CounterProps> = ({ numState: [count, setCount] }) => {
   }
 
   useEffect(() => {
-    dispatch(getBizInfo(userInfo.storeId)).then(setBizInfo({ ...storeInfo[0] }))
+    dispatch(getBizInfo(userInfo.storeId)).then(setBizInfo({...storeInfo}))
+    console.log(bizInfo)
   }, [])
 
   const update = () => {
@@ -174,7 +175,7 @@ const StepOne: React.FC<CounterProps> = ({ numState: [count, setCount] }) => {
     dispatch(updateBiz(update))
   }
 
-  if (storeInfo.length > 0) {
+  if (storeInfo) {
     return (
       <>
         <div className={style.Grid}>
@@ -227,7 +228,7 @@ const StepOne: React.FC<CounterProps> = ({ numState: [count, setCount] }) => {
           ) : (
             <div className={style.Time}>
               <div>
-                오픈시간 {storeInfo[0].openTime}시~{storeInfo[0].closeTime}시
+                오픈시간 {storeInfo.openTime}시~{storeInfo.closeTime}시
               </div>
               <Edit
                 style={{ marginLeft: 'auto' }}
