@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { useAppSelector } from './hooks'
 
 export const instance = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_API_URL}`,
@@ -60,7 +61,8 @@ instance.interceptors.response.use(
     }
   },
 )
-
+// const { mbId } = useAppSelector((state) => state.user.userInfo)
+// console.log(mbId)
 export const userAPI = {
   /** 카카오 로그인 */
   kakaoLogin: (code: string) => instance.post(`/auth/kakao?code=${code}`),

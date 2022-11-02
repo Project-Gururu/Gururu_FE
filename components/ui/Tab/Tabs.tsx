@@ -1,10 +1,11 @@
 import React from 'react'
+import { ReactNode } from 'react'
 
 import styles from './Tabs.module.scss'
 
 interface PropsType {
   tabElement: string[]
-  children: any
+  children: ReactNode[]
 }
 
 export default function Tabs({ tabElement, children }: PropsType) {

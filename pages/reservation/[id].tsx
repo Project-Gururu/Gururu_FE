@@ -17,7 +17,7 @@ export default function Reservation() {
         alt="가게 사진"
       />
       <Calendar />
-      <Tabs tabElement={['소형', '중형', '대형']}>1</Tabs>
+      {/* <Tabs tabElement={['소형', '중형', '대형']}>1</Tabs> */}
     </>
   )
 }
